@@ -1,0 +1,12 @@
+name: tarsphere-isaac51
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - libxcb>=1.14,<2
+  - pip
+  # SAM3 imports pkg_resources, which setuptools 81+ no longer provides.
+  - setuptools=80.9.0
+  - wheel

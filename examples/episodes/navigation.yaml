@@ -1,0 +1,246 @@
+episode_id: sectional_sofa_home_navigate_and_report_base
+title: 'sectional_sofa_home navigate-and-report: multi_room_home'
+description: Inspect sectional sofa in the lounge and report the requested observation to Nora.
+scene:
+  asset_path: scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation.usd
+  scale:
+  - 0.01
+  - 0.01
+  - 0.01
+robot:
+  id: 0
+  model: G1Robot
+  action_level: low_level
+  start_position:
+  - -7.921767
+  - 5.445063
+  - 0.8
+  start_orientation:
+  - 0.14521310261312978
+  - 0.0
+  - 0.0
+  - -0.9894004016723809
+humans:
+- id: Nora
+  role: requester
+  start_position:
+  - -10.079436
+  - 4.798378
+  - 0.0
+  start_yaw: 0.2914567094318633
+  static: true
+  persona: Nora follows the episode-authored requester role, states only public task facts, and does not
+    invent unseen evidence.
+  goals:
+  - Contribute only the episode-authored public task facts.
+  asset: F_Medical_01
+interaction:
+  intents: []
+evaluation:
+  schema_version: tarsphere.evaluation.v14
+  task_profile:
+    mainline: navigate_and_report
+    capability_slice: base
+  milestones:
+  - milestone_id: task_understanding
+    preconditions:
+    - kind: detector
+      condition_id: requester_near_at_start
+      detector: robot_near_human
+      arguments:
+        human_id: Nora
+        distance: 2.5
+      description: The Robot is within the shared auditory radius of Nora.
+    event:
+      type: task_requested
+      description: Nora publicly assigns the task.
+      human_actions:
+      - human: Nora
+        command: speak
+        message: I am choosing a sofa cover. Please check the upholstery color of the sectional sofa in
+          the lounge, then come back and tell me. From your starting position facing me, turn around to
+          enter the open aisle. Follow the aisle toward the living room. What color is the sectional sofa's
+          upholstery?
+      task_updates: []
+    reaction:
+      description: The Agent forms a task-grounded plan for the complete request.
+      evaluator: structured_plan_submitted
+      ground_truth:
+        goal: Inspect sectional sofa in the lounge and report the requested visual property to Nora.
+        required_subgoals:
+        - Navigate from the dispatch area to the bound observation stance.
+        - Observe the exact scene object and retain the requested property.
+        - Navigate to Nora and report the grounded result.
+  - milestone_id: onsite_target_observed
+    preconditions:
+    - kind: milestone
+      milestone_ref: task_understanding
+    event:
+      type: task_phase_opened
+      description: The onsite visual-inspection phase is causally available.
+      human_actions: []
+      task_updates: []
+    reaction:
+      description: The Agent observes the exact bound scene object.
+      evaluator: visual_targets_observed
+      ground_truth:
+        object_ids:
+        - couch/model_11fb409b3571e8194059cdb4ae5a8347_0
+        scene_anchor_id: task_observation
+  - milestone_id: onsite_task_completed
+    preconditions:
+    - kind: milestone
+      milestone_ref: onsite_target_observed
+    event:
+      type: task_phase_opened
+      description: The requested onsite inspection can now be concluded.
+      human_actions: []
+      task_updates: []
+    reaction:
+      description: The Agent submits its evidence-grounded inspection conclusion.
+      evaluator: inspection_submitted
+      ground_truth:
+        criterion: What color is the sectional sofa's upholstery?
+        answer: The sectional sofa has light beige upholstery.
+  - milestone_id: recipient_observed
+    preconditions:
+    - kind: milestone
+      milestone_ref: onsite_task_completed
+    event:
+      type: task_phase_opened
+      description: The next interaction phase with Nora is causally available.
+      human_actions: []
+      task_updates: []
+    reaction:
+      description: The Agent observes Nora in current ego RGB-D.
+      evaluator: human_visible
+      ground_truth:
+        human_id: Nora
+  - milestone_id: task_completed
+    preconditions:
+    - kind: milestone
+      milestone_ref: recipient_observed
+    event:
+      type: task_phase_opened
+      description: The Agent can deliver the inspection result to Nora.
+      human_actions: []
+      task_updates: []
+    reaction:
+      description: The Agent reports the grounded result to Nora.
+      evaluator: information_report_score
+      ground_truth:
+        human_id: Nora
+        answer: The sectional sofa has light beige upholstery.
+runtime:
+  max_decision_steps: null
+world_knowledge:
+  scene_id: MV7J6NIKTKJZ2AABAAAAADY8_usd
+  scene_sources:
+    scene_usd: scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation.usd
+  scene_map:
+    rgb_bev: scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/bev_rgb.png
+    projection: scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/bev_meta.json
+    occupancy: benchmark/meta/MV7J6NIKTKJZ2AABAAAAADY8_usd/occupancy.npy
+  spatial_anchors:
+    task_observation:
+    - -14.015663
+    - 0.726338
+  objects:
+  - object_id: couch/model_11fb409b3571e8194059cdb4ae5a8347_0
+    name: sectional sofa in the lounge
+    category: couch
+    room_id: living_room
+    position_xyz:
+    - -14.963814000000003
+    - 2.2932900000000003
+    - 0.375509
+    bounds_min_xyz:
+    - -16.56736062456541
+    - 1.40047798828125
+    - -2.6855469315023584e-09
+    bounds_max_xyz:
+    - -13.360267375434594
+    - 3.1861020117187504
+    - 0.7510180026855469
+    runtime_prim: /World/env_0/scene/Meshes/Furnitures/couch/model_11fb409b3571e8194059cdb4ae5a8347_0/Instance
+  episode_route:
+    planning_clearance_radius_m: 0.25
+    collision_cell_count: 0
+    navigate_to_target:
+      points:
+      - point_id: task_start
+        position_xy:
+        - -7.921767
+        - 5.445063
+        semantic_anchor: Robot deployment point near requester Nora
+        anchor_kind: robot_start
+        anchor_id: robot_0
+        authored_anchor_xy:
+        - -7.921767
+        - 5.445063
+        snap_residual_m: 0.0
+      - point_id: task_target
+        position_xy:
+        - -14.015663
+        - 0.726338
+        semantic_anchor: Bound scene-object observation stance
+        anchor_kind: scene_anchor
+        anchor_id: task_observation
+        authored_anchor_xy:
+        - -14.015663
+        - 0.726338
+        snap_residual_m: 0.0
+      optimal_navigation_length_m: 10.593527973362624
+    transport_to_destination:
+      points:
+      - point_id: target_departure
+        position_xy:
+        - -14.015663
+        - 0.726338
+        semantic_anchor: Departure point after completing the onsite objective
+        anchor_kind: scene_anchor
+        anchor_id: task_observation
+        authored_anchor_xy:
+        - -14.015663
+        - 0.726338
+        snap_residual_m: 0.0
+      - point_id: completion_stance
+        position_xy:
+        - -11.112224
+        - 3.998314
+        semantic_anchor: Completion stance beside Nora
+        anchor_kind: human_position
+        anchor_id: Nora
+        authored_anchor_xy:
+        - -10.079436
+        - 4.798378
+        snap_residual_m: 1.306427746582259
+      optimal_navigation_length_m: 5.162723173682158
+    milestone_stops:
+    - milestone_id: task_understanding
+      route_point_id: task_start
+    - milestone_id: onsite_target_observed
+      route_point_id: task_target
+    - milestone_id: onsite_task_completed
+      route_point_id: task_target
+    - milestone_id: recipient_observed
+      route_point_id: completion_stance
+    - milestone_id: task_completed
+      route_point_id: completion_stance
+    optimal_navigation_length_m: 15.756251147044782
+metadata:
+  scene_context: household
+  fine_venue: multi_room_home
+  scene_name: sectional_sofa_home
+  target_visual_review_status: not_applicable
+  public_task_name: navigate-and-report
+  onsite_mode: inspection
+  route_regions:
+  - Far open side of the sitting area beside the dining room.
+  - Open observation stance inside the sectional-sofa lounge, clear of the circular chair footprint.
+  - 'Return to the requester at the dispatch area: Far open side of the sitting area beside the dining
+    room.'
+tags:
+- household
+- navigation
+- base

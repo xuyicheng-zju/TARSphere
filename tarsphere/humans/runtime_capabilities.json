@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0",
+  "commands": [
+    {
+      "name": "perform_task",
+      "description": "Complete authored symbolic auxiliary work at a verified real operation stance, without moving the body or changing scene geometry.",
+      "required_parameters": ["target_anchor", "task_description"],
+      "optional_parameters": ["partner_human_id"],
+      "prerequisites": ["actual_operation_stance", "completed_body_motion"],
+      "backend_command": "",
+      "animation_clips": [],
+      "llm_example": {"action": "perform_task", "target_anchor": "kitchen_stove_stance", "task_description": "Start the stove for the planned preparation."}
+    },
+    {
+      "name": "ask",
+      "description": "Ask a question through the public language channel.",
+      "required_parameters": ["message"],
+      "optional_parameters": [],
+      "prerequisites": [],
+      "backend_command": "",
+      "animation_clips": [],
+      "llm_example": {"action": "ask", "message": "Could you clarify what you need?"}
+    },
+    {
+      "name": "speak",
+      "description": "Make a public statement through the language channel.",
+      "required_parameters": ["message"],
+      "optional_parameters": [],
+      "prerequisites": [],
+      "backend_command": "",
+      "animation_clips": [],
+      "llm_example": {"action": "speak", "message": "The bottle belongs to me."}
+    },
+    {
+      "name": "listen",
+      "description": "Remain in place and listen without producing speech.",
+      "required_parameters": [],
+      "optional_parameters": ["duration"],
+      "prerequisites": [],
+      "backend_command": "Idle",
+      "animation_clips": ["stand_idle_loop", "stand_idle_loop_mirror"],
+      "llm_example": {"action": "listen", "duration": 5}
+    },
+    {
+      "name": "report_done",
+      "description": "Report completion through the public language channel.",
+      "required_parameters": ["message"],
+      "optional_parameters": [],
+      "prerequisites": [],
+      "backend_command": "",
+      "animation_clips": [],
+      "llm_example": {"action": "report_done", "message": "I am done."}
+    },
+    {
+      "name": "goto",
+      "description": "Walk to one authored scene anchor.",
+      "required_parameters": ["target"],
+      "optional_parameters": ["end_rot"],
+      "prerequisites": ["baked_navmesh", "reachable_target_anchor"],
+      "backend_command": "GoTo",
+      "animation_clips": [
+        "stand_walk_1",
+        "stand_walk_1_mirror",
+        "stand_walk_2",
+        "stand_walk_2_mirror",
+        "stand_walk_3",
+        "stand_walk_3_mirror",
+        "stand_walk_4",
+        "stand_walk_4_mirror",
+        "stand_walk_5",
+        "stand_walk_5_mirror",
+        "stand_walk_7",
+        "stand_walk_7_mirror",
+        "stand_walk_loop",
+        "stand_walk_loop_mirror",
+        "stand_walk_loop_in_place",
+        "stand_walk_loop_in_place_mirror"
+      ],
+      "llm_example": {"action": "goto", "target": "requester corridor stop"}
+    },
+    {
+      "name": "idle",
+      "description": "Remain in place using the standard idle animation.",
+      "required_parameters": [],
+      "optional_parameters": ["duration"],
+      "prerequisites": [],
+      "backend_command": "Idle",
+      "animation_clips": [
+        "stand_idle_loop",
+        "stand_idle_loop_mirror",
+        "stand_idle_wave_loop",
+        "stand_idle_wave_loop_mirror"
+      ],
+      "llm_example": {"action": "idle", "duration": 5}
+    },
+    {
+      "name": "look_around",
+      "description": "Look around in place for a bounded duration.",
+      "required_parameters": [],
+      "optional_parameters": ["duration"],
+      "prerequisites": [],
+      "backend_command": "LookAround",
+      "animation_clips": ["LookAround"],
+      "llm_example": {"action": "look_around", "duration": 5}
+    },
+    {
+      "name": "sit",
+      "description": "Sit at an authored seat anchor.",
+      "required_parameters": ["seat_anchor"],
+      "optional_parameters": ["duration"],
+      "prerequisites": [
+        "seat_prim",
+        "seat_walk_to_offset",
+        "seat_interact_offset"
+      ],
+      "backend_command": "Sit",
+      "animation_clips": ["Sit"],
+      "llm_example": {"action": "sit", "seat_anchor": "living room sofa"}
+    },
+    {
+      "name": "queue",
+      "description": "Join an authored ordered queue and optionally leave it.",
+      "required_parameters": ["queue_name", "spots"],
+      "optional_parameters": ["first_action", "leave_target", "leave_rot"],
+      "prerequisites": ["baked_navmesh", "reachable_queue_spots"],
+      "backend_command": "Queue",
+      "animation_clips": [
+        "stand_idle_loop",
+        "stand_idle_loop_mirror",
+        "stand_walk_loop",
+        "stand_walk_loop_mirror"
+      ],
+      "llm_example": {
+        "action": "queue",
+        "queue_name": "CounterLine",
+        "spots": [[1.0, 2.0, 0.0, 0.0]]
+      }
+    },
+    {
+      "name": "type_keyboard",
+      "description": "Play the registered keyboard-typing animation at an authored interaction anchor.",
+      "required_parameters": ["target_anchor"],
+      "optional_parameters": ["duration"],
+      "prerequisites": [
+        "actor_aligned_to_target_anchor",
+        "registered_custom_command"
+      ],
+      "backend_command": "TypeKeyboard",
+      "animation_clips": ["type_keyboard"],
+      "llm_example": {
+        "action": "type_keyboard",
+        "target_anchor": "study keyboard",
+        "duration": 5
+      }
+    },
+    {
+      "name": "push_button",
+      "description": "Play the registered button-press animation at an authored interaction anchor.",
+      "required_parameters": ["target_anchor"],
+      "optional_parameters": ["duration"],
+      "prerequisites": [
+        "actor_aligned_to_target_anchor",
+        "registered_custom_command"
+      ],
+      "backend_command": "PushButton",
+      "animation_clips": ["push_button"],
+      "llm_example": {
+        "action": "push_button",
+        "target_anchor": "elevator button",
+        "duration": 5
+      }
+    }
+  ],
+  "required_animation_clips": [
+    "LookAround",
+    "Sit",
+    "push_button",
+    "stand_idle_loop",
+    "stand_idle_loop_mirror",
+    "stand_idle_wave_loop",
+    "stand_idle_wave_loop_mirror",
+    "stand_walk_1",
+    "stand_walk_1_mirror",
+    "stand_walk_2",
+    "stand_walk_2_mirror",
+    "stand_walk_3",
+    "stand_walk_3_mirror",
+    "stand_walk_4",
+    "stand_walk_4_mirror",
+    "stand_walk_5",
+    "stand_walk_5_mirror",
+    "stand_walk_7",
+    "stand_walk_7_mirror",
+    "stand_walk_loop",
+    "stand_walk_loop_in_place",
+    "stand_walk_loop_in_place_mirror",
+    "stand_walk_loop_mirror",
+    "type_keyboard"
+  ]
+}

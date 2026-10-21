@@ -1,0 +1,28 @@
+[package]
+# Higher than shipped 0.4.3 so Kit resolves this copy instead of the one in
+# ${ISAAC_PATH}/exts that ships libisaacsim.sensors.physics.plugin.so.
+version = "9.9.9"
+category = "Simulation"
+title = "Isaac Sim Physics Sensor Simulation (TARSphere stub)"
+description = "Native-plugin-free stub that satisfies Kit dependencies without loading the crashing sensors.physics Carb plugin."
+authors = ["TARSphere-Bench"]
+keywords = ["isaac", "physics", "robotics", "tarsphere-stub"]
+writeTarget.kit = true
+
+[dependencies]
+"isaacsim.core.api" = {}
+"isaacsim.core.deprecation_manager" = {}
+"isaacsim.core.nodes" = {}
+"isaacsim.robot.schema" = {}
+"isaacsim.storage.native" = {}
+"omni.graph" = {}
+"omni.kit.numpy.common" = {}
+"omni.kit.pip_archive" = {}
+"omni.physx" = {}
+"omni.replicator.core" = {}
+"omni.timeline" = {}
+"omni.usd" = {}
+"usdrt.scenegraph" = {}
+
+[[python.module]]
+name = "isaacsim.sensors.physics"

@@ -1,0 +1,19 @@
+[package]
+# The deprecated compatibility extension imports the native ``_sensor`` module
+# from isaacsim.sensors.physics. TARSphere intentionally replaces that extension with
+# a native-plugin-free stub, so loading the shipped compatibility layer can
+# only end in a noisy ImportError. Nothing in TARSphere-Bench or TARSphere imports
+# this deprecated namespace; provide a higher-version no-op dependency target.
+version = "99.9.9"
+category = "Simulation"
+title = "Deprecated Isaac Sensor Compatibility Layer (TARSphere stub)"
+description = "No-op replacement for unused omni.isaac.sensor compatibility imports."
+authors = ["TARSphere-Bench"]
+keywords = ["isaac", "sensor", "compatibility", "tarsphere-stub"]
+writeTarget.kit = true
+
+[dependencies]
+"isaacsim.sensors.physics" = {}
+
+[[python.module]]
+name = "omni.isaac.sensor"

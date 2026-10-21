@@ -1,0 +1,75 @@
+{
+    "fingertip": [
+        0.0,
+        0,
+        0.161397420277191
+    ],
+    "open": {
+        "left_inner_joint_0": 0.6531001431139286,
+        "right_inner_joint_0": 0.6531001431139286,
+        "left_tip_joint_0": 0.6531001431139286,
+        "right_tip_joint_0": 0.6531001431139286
+    },
+    "close": {
+        "left_inner_joint_0": 0,
+        "right_inner_joint_0": 0,
+        "left_tip_joint_0": 0,
+        "right_tip_joint_0": 0
+    },
+    "sim": {
+        "base_joint": "left_inner_joint_0",
+        "mimic_joints": {
+            "right_inner_joint_0": 1,
+            "left_tip_joint_0": 1,
+            "right_tip_joint_0": 1
+        }
+    },
+    "sweep_volume": {
+        "extents": [
+            0.11366911428152596,
+            0.03399957251652456,
+            0.03535969828781882
+        ],
+        "offset": [
+            0,
+            0,
+            0.1477175711332816
+        ],
+        "extents2": [
+            0.0506114585022193,
+            0.03399957251652456,
+            0.04600056894577272
+        ],
+        "offset2": [
+            0,
+            0,
+            0.12665801094757756
+        ]
+    },
+    "standoff": [
+        0.0,
+        0.01867984914390941
+    ],
+    "links": [
+        "world",
+        "link_0",
+        "link_1",
+        "link_2",
+        "link_3",
+        "link_4"
+    ],
+    "symmetric": true,
+    "type": "revolute_2f",
+    "bbox": [
+        [
+            -0.03338559716939926,
+            -0.017530592158436775,
+            0.0
+        ],
+        [
+            0.03338559344410896,
+            0.017530594021081924,
+            0.14968402683734894
+        ]
+    ]
+}

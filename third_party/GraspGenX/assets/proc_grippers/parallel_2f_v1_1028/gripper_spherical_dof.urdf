@@ -1,0 +1,111 @@
+<?xml version="1.0" ?>
+<robot name="hand">
+  <link name="hand_x_link"/>
+  <link name="hand_y_link"/>
+  <link name="hand_z_link"/>
+  <link name="hand_spherical_link"/>
+  <joint name="hand_x_joint" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="hand_x_link"/>
+    <child link="hand_y_link"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="10.0"/>
+    <limit lower="-100.0" upper="100.0" effort="200.0" velocity="1.0"/>
+  </joint>
+  <joint name="hand_y_joint" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="hand_y_link"/>
+    <child link="hand_z_link"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="10.0"/>
+    <limit lower="-100.0" upper="100.0" effort="200.0" velocity="1.0"/>
+  </joint>
+  <joint name="hand_z_joint" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="hand_z_link"/>
+    <child link="hand_spherical_link"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="10.0"/>
+    <limit lower="-100.0" upper="100.0" effort="200.0" velocity="1.0"/>
+  </joint>
+  <joint name="spherical_joint" type="spherical">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="hand_spherical_link"/>
+    <child link="world"/>
+    <limit lower="-4.0" upper="4.0" effort="1000.0" velocity="100.0"/>
+  </joint>
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="link_0"/>
+  </joint>
+  <joint name="right_joint_0" type="prismatic">
+    <origin xyz="0.009638607501983643 0.0 0.13273220136761665"/>
+    <parent link="link_0"/>
+    <child link="link_1"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit lower="0.0" upper="0.040944394" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_1">
+    <visual>
+      <geometry>
+        <mesh filename="assets/right_finger_0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/right_finger_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </collision>
+  </link>
+  <joint name="left_joint_0" type="prismatic">
+    <origin xyz="-0.00963860732238686 -6.984919309616089e-08 0.13273220136761665"/>
+    <parent link="link_0"/>
+    <child link="link_2"/>
+    <axis xyz="-1.0 0.0 0.0"/>
+    <limit lower="0.0" upper="0.040944394" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_2">
+    <visual>
+      <geometry>
+        <mesh filename="assets/left_finger_0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/left_finger_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="link_0">
+    <visual>
+      <geometry>
+        <mesh filename="assets/base_0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/base_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/base_1.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.051121316850185394"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/base_1_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.051121316850185394"/>
+    </collision>
+  </link>
+</robot>

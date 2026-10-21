@@ -1,0 +1,64 @@
+name: franka_panda
+# Selects the concrete RobotProfile subclass in end2end/robot_profiles.py
+# (7 arm joints, 2 independent prismatic finger joints, no mimic).
+profile: franka_panda
+
+curobo:
+  # Use cuRobo's shipped franka.yml directly. Setting this to a bare filename
+  # means the loader will resolve it inside cuRobo's content/configs/robot dir
+  # without rewriting paths.
+  robot_config: franka.yml
+  tool_frame: panda_hand
+  default_joint_position: [0.0, -1.3, 0.0, -2.5, 0.0, 1.5, 0.8]
+
+graspgen:
+  gripper_name: franka_panda
+  # checkpoints_dir omitted on purpose: GraspGenX resolves it via
+  # get_checkpoints_version_dir() ($GRASPGENX_CHECKPOINT_DIR or the managed
+  # auto-download root). Uncomment + set only to point at a custom checkpoint.
+  # checkpoints_dir: /abs/path/to/checkpoints/v6_04_23_2026
+
+grasp_to_tool_transform:
+  # GraspGenX's grasp frame has the gripper closing axis along +X
+  # (sweep_volume.extents=[0.08, 0.018, 0.018], with 0.08 = stroke).
+  # The Panda's panda_hand frame closes along +Y (panda_finger_joint1
+  # axis="0 1 0" in the URDF). To align panda_hand's Y with the grasp
+  # frame's X, rotate the panda_hand pose by +90° around the grasp
+  # frame's Z axis. Without this offset the gripper visualizes
+  # correctly (because viz uses the GraspGen frame) but the real
+  # robot's fingers close along the wrong axis and grasps miss.
+  translation: [0.0, 0.0, 0.0]
+  quaternion_xyzw: [0.0, 0.0, 0.7071068, 0.7071068]
+
+robot_base_pose:
+  # Lift the robot slightly so the arm has room to reach a 0.4 m tall bin.
+  translation: [0.0, 0.0, 0.3]
+  quaternion_xyzw: [0.0, 0.0, 0.0, 1.0]
+
+# Use cuRobo's shipped Franka Panda URDF for scene_synthesizer rendering + FK.
+# ${CUROBO_ASSETS} resolves to the installed nvidia-curobo content/assets dir
+# (see end2end/paths.py) so this works wherever the repo is cloned.
+urdf_path: ${CUROBO_ASSETS}/robot/franka_description/franka_panda.urdf
+asset_root_path: ${CUROBO_ASSETS}/robot/franka_description
+
+# PD / sim overrides for dynamic_playback.
+#
+# Stiff finger PD: kp=4000/kd=400 lets the gripper close hard enough
+# to deform contact instead of letting the object squirt out. The
+# panda_hydro example uses 650/100 with a heavier integrator setup;
+# we need more authority because our PD has to fight both the URDF's
+# intrinsic damping=10 AND any contact compliance.
+#
+# finger_effort_limit (default 200 N in dynamic_playback) was the
+# previous bottleneck — raise it explicitly so the URDF's 20 N cap is
+# fully overridden.
+dynamic:
+  # Arm gains: kp=500 was the original UR10 default but it's too soft
+  # for the 7-DOF Franka over long transports — tracking error
+  # accumulates and the gripper drifts off the planned path. Stiffer
+  # gains (2000/100) keep the arm tightly on the cuRobo trajectory.
+  arm_kp: 2000.0
+  arm_kd: 100.0
+  finger_kp: 4000.0
+  finger_kd: 400.0
+  finger_effort_limit: 1000.0

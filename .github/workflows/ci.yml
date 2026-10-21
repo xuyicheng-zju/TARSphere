@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m ruff check tarsphere scripts tests examples
+      - run: python -m ruff format --check tarsphere scripts tests examples
+      - run: python -m pytest -q
+      - run: python -m build
+      - name: Check the installed wheel outside the source tree
+        run: |
+          python -m pip install --no-deps --force-reinstall dist/*.whl
+          cd "$RUNNER_TEMP"
+          python -m tarsphere.cli.runtime
+          python -c 'from importlib.resources import files; import json; json.loads(files("tarsphere.humans").joinpath("runtime_capabilities.json").read_text()); json.loads(files("tarsphere.bench.inputs").joinpath("sources.json").read_text())'
+      - name: Check the complete source release
+        run: |
+          mkdir -p "$RUNNER_TEMP/tarsphere-source"
+          tar -xzf dist/*.tar.gz -C "$RUNNER_TEMP/tarsphere-source"
+          cd "$RUNNER_TEMP/tarsphere-source"/tarsphere-*
+          python -m pip install -e '.[dev]'
+          python -m pytest -q
+          bash scripts/evaluate.sh --plan

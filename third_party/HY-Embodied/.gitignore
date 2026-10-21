@@ -1,0 +1,10 @@
+__pycache__/
+debug/
+# vLLM plugin editable-install artifacts
+*.egg-info/
+*.egg
+.eggs/
+__pycache__/
+*.pyc
+.DS_Store
+**/.DS_Store

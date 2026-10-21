@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<robot name="hand">
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="link_0"/>
+  </joint>
+  <joint name="right_joint_0" type="prismatic">
+    <origin xyz="0.005820534541271627 0.0 0.138142392039299"/>
+    <parent link="link_0"/>
+    <child link="link_1"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit lower="0.0" upper="0.023081662" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_1">
+    <visual>
+      <geometry>
+        <mesh filename="assets/right_finger_0.obj"/>
+      </geometry>
+      <origin xyz="0.0014999998966231942 0.0 -0.0021967217326164246"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/right_finger_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0014999998966231942 0.0 -0.0021967217326164246"/>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/right_finger_1.obj"/>
+      </geometry>
+      <origin xyz="-0.0038205343298614025 0.0 0.01052863895893097"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/right_finger_1_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.0038205343298614025 0.0 0.01052863895893097"/>
+    </collision>
+  </link>
+  <joint name="left_joint_0" type="prismatic">
+    <origin xyz="-0.005820534424856305 -4.237517714500427e-08 0.138142392039299"/>
+    <parent link="link_0"/>
+    <child link="link_2"/>
+    <axis xyz="-1.0 0.0 0.0"/>
+    <limit lower="0.0" upper="0.023081662" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_2">
+    <visual>
+      <geometry>
+        <mesh filename="assets/left_finger_0.obj"/>
+      </geometry>
+      <origin xyz="-0.0014999998696119121 -1.0710209608078003e-08 -0.0021967217326164246"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/left_finger_0_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.0014999998696119121 -1.0710209608078003e-08 -0.0021967217326164246"/>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/left_finger_1.obj"/>
+      </geometry>
+      <origin xyz="0.003820534097030759 2.7939677238464355e-08 0.01052863895893097"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/left_finger_1_col0.obj"/>
+      </geometry>
+      <origin xyz="0.003820534097030759 2.7939677238464355e-08 0.01052863895893097"/>
+    </collision>
+  </link>
+  <link name="link_0">
+    <visual>
+      <geometry>
+        <mesh filename="assets/base_0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.05941344052553177"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/base_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.05941344052553177"/>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="assets/base_0_col1.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.05941344052553177"/>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="assets/base_0_col2.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.05941344052553177"/>
+    </collision>
+  </link>
+</robot>

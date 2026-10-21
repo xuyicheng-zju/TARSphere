@@ -1,0 +1,86 @@
+from .base_encoders import (
+    DepthEncoder,
+    InstructionEncoder,
+    ModelCfg,
+    ProgressMonitor,
+    RgbEncoder,
+    Seq2Seq,
+    StateEncoder,
+)
+
+seq2seq_cfg = ModelCfg(
+    policy_name='Seq2Seq_Policy',
+    max_step=200,
+    len_traj_act=4,
+    instruction_encoder=InstructionEncoder(
+        sensor_uuid='instruction',
+        vocab_size=2504,
+        use_pretrained_embeddings=True,
+        embedding_file='data/vln_pe/raw_data/r2r/embeddings.json.gz',
+        dataset_vocab='data/vln_pe/raw_data/r2r/train/train.json.gz',
+        fine_tune_embeddings=False,
+        embedding_size=50,
+        hidden_size=128,
+        rnn_type='LSTM',
+        final_state_only=True,
+        bidirectional=False,
+    ),
+    rgb_encoder=RgbEncoder(cnn_type='TorchVisionResNet50', output_size=256, trainable=False),
+    depth_encoder=DepthEncoder(
+        cnn_type='VlnResnetDepthEncoder',
+        output_size=128,
+        backbone='resnet50',
+        ddppo_checkpoint='checkpoints/ddppo-models/gibson-4plus-mp3d-train-val-test-resnet50.pth',
+        trainable=False,
+    ),
+    state_encoder=StateEncoder(
+        hidden_size=512,
+        rnn_type='GRU',
+        num_recurrent_layers=1,
+    ),
+    progress_monitor=ProgressMonitor(
+        use=True,
+        alpha=1.0,
+    ),
+    seq2seq=Seq2Seq(
+        use_prev_action=False,
+    ),
+)
+
+seq2seq_eval_cfg = ModelCfg(
+    policy_name='Seq2Seq_Policy',
+    max_step=200,
+    len_traj_act=4,
+    instruction_encoder=InstructionEncoder(
+        sensor_uuid='instruction',
+        vocab_size=2504,
+        use_pretrained_embeddings=True,
+        embedding_file='data/vln_pe/raw_data/r2r/embeddings.json.gz',
+        dataset_vocab='data/vln_pe/raw_data/r2r/train/train.json.gz',
+        fine_tune_embeddings=False,
+        embedding_size=50,
+        hidden_size=128,
+        rnn_type='LSTM',
+        final_state_only=True,
+        bidirectional=False,
+    ),
+    rgb_encoder=RgbEncoder(cnn_type='TorchVisionResNet50', output_size=256, trainable=False),
+    depth_encoder=DepthEncoder(
+        cnn_type='VlnResnetDepthEncoder',
+        output_size=128,
+        backbone='resnet50',
+        ddppo_checkpoint='checkpoints/ddppo-models/gibson-4plus-mp3d-train-val-test-resnet50.pth',
+        trainable=False,
+    ),
+    state_encoder=StateEncoder(
+        hidden_size=512,
+        rnn_type='GRU',
+    ),
+    progress_monitor=ProgressMonitor(
+        use=True,
+        alpha=1.0,
+    ),
+    seq2seq=Seq2Seq(
+        use_prev_action=False,
+    ),
+)

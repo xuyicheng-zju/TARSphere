@@ -1,0 +1,180 @@
+diff --git a/sam3/model_builder.py b/sam3/model_builder.py
+--- a/sam3/model_builder.py
++++ b/sam3/model_builder.py
+@@ -536,10 +536,15 @@
+     return TransformerWrapper(encoder=encoder, decoder=decoder, d_model=256)
+ 
+ 
+-def _load_checkpoint(model, checkpoint_path):
+-    """Load model checkpoint from file."""
++def _load_checkpoint(model, checkpoint_path, map_location="cpu"):
++    """Load model checkpoint from file.
++
++    ``map_location`` should match the device the model already lives on.
++    Staging a multi-GB checkpoint in host RAM next to a resident Isaac Sim
++    process is what pushes a 60 GB host into the OOM killer.
++    """
+     with g_pathmgr.open(checkpoint_path, "rb") as f:
+-        ckpt = torch.load(f, map_location="cpu", weights_only=True)
++        ckpt = torch.load(f, map_location=map_location, weights_only=True)
+     if "model" in ckpt and isinstance(ckpt["model"], dict):
+         ckpt = ckpt["model"]
+     sam3_image_ckpt = {
+@@ -553,11 +558,45 @@
+                 if "tracker" in k
+             }
+         )
+-    missing_keys, _ = model.load_state_dict(sam3_image_ckpt, strict=False)
+-    if len(missing_keys) > 0:
++    # SAM 3.1 multiplex checkpoints also carry two video-only necks. The
++    # default image detector never constructs these heads. Exclude exactly
++    # their declared parameter names before validating the image checkpoint.
++    if model.inst_interactive_predictor is None and model.backbone.scalp == 1:
++        video_neck_keys = {
++            f"backbone.vision_backbone.{head}.{level}.{layer}.{parameter}"
++            for head in ("interactive_convs", "propagation_convs")
++            for level, layers in (
++                (0, ("dconv_2x2_0", "dconv_2x2_1", "conv_1x1", "conv_3x3")),
++                (1, ("dconv_2x2", "conv_1x1", "conv_3x3")),
++                (2, ("conv_1x1", "conv_3x3")),
++            )
++            for layer in layers
++            for parameter in ("weight", "bias")
++        }
++        sam3_image_ckpt = {
++            key: value for key, value in sam3_image_ckpt.items()
++            if key not in video_neck_keys
++        }
++    missing_keys, unexpected_keys = model.load_state_dict(sam3_image_ckpt, strict=False)
++    # The SAM 3.1 detector has three FPN levels. This image builder creates a
++    # fourth level, then SAM3VLBackbone(scalp=1) permanently discards it before
++    # detection. Only that unused branch may lack weights; every consumed
++    # detector parameter must match the supplied checkpoint.
++    discarded_neck_keys = {
++        f"backbone.vision_backbone.convs.3.{layer}.{parameter}"
++        for layer in ("conv_1x1", "conv_3x3")
++        for parameter in ("weight", "bias")
++    } if model.backbone.scalp == 1 and model.inst_interactive_predictor is None else set()
++    required_missing = set(missing_keys) - discarded_neck_keys
++    if required_missing or unexpected_keys:
++        raise RuntimeError(
++            f"SAM3 detector checkpoint mismatch for {checkpoint_path}: "
++            f"missing={sorted(required_missing)}, unexpected={sorted(unexpected_keys)}"
++        )
++    if missing_keys:
+         print(
+-            f"loaded {checkpoint_path} and found "
+-            f"missing and/or unexpected keys:\n{missing_keys=}"
++            "SAM3 detector checkpoint validated; omitted only the unused "
++            f"fourth FPN level (scalp=1): {sorted(missing_keys)}"
+         )
+ 
+ 
+@@ -600,56 +639,61 @@
+             "sam3", "assets/bpe_simple_vocab_16e6.txt.gz"
+         )
+ 
+-    # Create visual components
++    # Allocate parameters on the target device so we do not materialize a full
++    # CPU copy of the model before _setup_device_and_mode moves it to the GPU.
+     compile_mode = "default" if compile else None
+-    vision_encoder = _create_vision_backbone(
+-        compile_mode=compile_mode, enable_inst_interactivity=enable_inst_interactivity
+-    )
+-
+-    # Create text components
+-    text_encoder = _create_text_encoder(bpe_path)
+-
+-    # Create visual-language backbone
+-    backbone = _create_vl_backbone(vision_encoder, text_encoder)
+-
+-    # Create transformer components
+-    transformer = _create_sam3_transformer()
+-
+-    # Create dot product scoring
+-    dot_prod_scoring = _create_dot_product_scoring()
+-
+-    # Create segmentation head if enabled
+-    segmentation_head = (
+-        _create_segmentation_head(compile_mode=compile_mode)
+-        if enable_segmentation
+-        else None
+-    )
+-
+-    # Create geometry encoder
+-    input_geometry_encoder = _create_geometry_encoder()
+-    if enable_inst_interactivity:
+-        sam3_pvs_base = build_tracker(apply_temporal_disambiguation=False)
+-        inst_predictor = SAM3InteractiveImagePredictor(sam3_pvs_base)
+-    else:
+-        inst_predictor = None
+-    # Create the SAM3 model
+-    model = _create_sam3_model(
+-        backbone,
+-        transformer,
+-        input_geometry_encoder,
+-        segmentation_head,
+-        dot_prod_scoring,
+-        inst_predictor,
+-        eval_mode,
+-    )
++    with torch.device(device):
++        vision_encoder = _create_vision_backbone(
++            compile_mode=compile_mode,
++            enable_inst_interactivity=enable_inst_interactivity,
++        )
++
++        # Create text components
++        text_encoder = _create_text_encoder(bpe_path)
++
++        # Create visual-language backbone
++        backbone = _create_vl_backbone(vision_encoder, text_encoder)
++
++        # Create transformer components
++        transformer = _create_sam3_transformer()
++
++        # Create dot product scoring
++        dot_prod_scoring = _create_dot_product_scoring()
++
++        # Create segmentation head if enabled
++        segmentation_head = (
++            _create_segmentation_head(compile_mode=compile_mode)
++            if enable_segmentation
++            else None
++        )
++
++        # Create geometry encoder
++        input_geometry_encoder = _create_geometry_encoder()
++        if enable_inst_interactivity:
++            sam3_pvs_base = build_tracker(apply_temporal_disambiguation=False)
++            inst_predictor = SAM3InteractiveImagePredictor(sam3_pvs_base)
++        else:
++            inst_predictor = None
++        # Create the SAM3 model
++        model = _create_sam3_model(
++            backbone,
++            transformer,
++            input_geometry_encoder,
++            segmentation_head,
++            dot_prod_scoring,
++            inst_predictor,
++            eval_mode,
++        )
+     if load_from_HF and checkpoint_path is None:
+         checkpoint_path = download_ckpt_from_hf(version="sam3")
+-    # Load checkpoint if provided
++
++    # Move the model before loading weights so the checkpoint streams straight
++    # onto the target device; loading first would hold a second full copy of
++    # the weights in host RAM.
++    model = _setup_device_and_mode(model, device, eval_mode)
++
+     if checkpoint_path is not None:
+-        _load_checkpoint(model, checkpoint_path)
+-
+-    # Setup device and mode
+-    model = _setup_device_and_mode(model, device, eval_mode)
++        _load_checkpoint(model, checkpoint_path, map_location=device)
+ 
+     return model
+ 

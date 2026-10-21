@@ -1,0 +1,265 @@
+{
+  "_comment": "Global NPC identity table. Keyed by the only authorable IsaacPeople asset directories (episode humans[].asset). Asset-fixed only: name, caption, job, usd_file, appearance_attributes_gt, and required official reference_images. Preferences / need / intent / persona / goals belong in episode YAML. Appearance goldens are authored from 1024px four-view Omniverse renders of each local main USD (not inferred from the folder label). Isaac folder labels (Medical/Police/\u2026) often do NOT match the visible costume.",
+  "_reference_image_source": {
+    "provider": "NVIDIA Omniverse Isaac Sim",
+    "asset_root": "Assets/Isaac/5.0/Isaac/People/Characters",
+    "format": "official 256x256 asset-browser thumbnails"
+  },
+  "_schema": {
+    "name": "unique human-readable display name (assigned; not present in the USD)",
+    "usd_file": "required main USD filename relative to the asset directory",
+    "caption": "one-line natural-language description for prompts",
+    "job": "role inferred from visible costume (not blindly from the Isaac folder label)",
+    "appearance_attributes_gt": "canonical atomic golden list for human_appearance",
+    "reference_images": "required repo-relative paths to official NVIDIA Isaac People thumbnails; exposed only through the episode-scoped profile tool and labelled with name + job",
+    "isaac_category": "required Isaac People folder taxonomy (medical/police/construction/business)"
+  },
+  "_coverage": {
+    "primary_usable": [
+      "F_Business_02",
+      "F_Medical_01",
+      "M_Medical_01",
+      "female_adult_police_01_new",
+      "female_adult_police_02",
+      "female_adult_police_03_new",
+      "male_adult_construction_01_new",
+      "male_adult_construction_03",
+      "male_adult_construction_05_new",
+      "male_adult_police_04"
+    ],
+    "original_only_no_primary_twin": [
+      "original_male_adult_construction_02"
+    ],
+    "excluded": {
+      "biped_demo": "runtime rig payload required by Biped_Setup.usd, not an episode NPC",
+      "female_child_casual_01": "thumbnail only \u2014 USD not present locally",
+      "male_child_casual_01": "thumbnail only \u2014 USD not present locally",
+      "People/DH_Characters": "Digital Human characters are outside the supported episode catalog."
+    }
+  },
+  "F_Medical_01": {
+    "name": "Nora",
+    "usd_file": "F_Medical_01.usd",
+    "caption": "Adult woman with a low brown ponytail, wearing a pale yellow-green short-sleeve top and dusty-rose trousers.",
+    "job": "civilian",
+    "isaac_category": "medical",
+    "appearance_attributes_gt": [
+      "adult female",
+      "light skin",
+      "dark-brown hair in a low ponytail",
+      "pale yellow-green short-sleeve top",
+      "small left-chest pocket",
+      "dusty-rose straight trousers",
+      "white sneakers"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/F_Medical_01.png"
+    ]
+  },
+  "M_Medical_01": {
+    "name": "Marcus",
+    "usd_file": "M_Medical_01.usd",
+    "caption": "Bald adult man in a long plum coat over a grey shirt and olive-brown trousers.",
+    "job": "civilian",
+    "isaac_category": "medical",
+    "appearance_attributes_gt": [
+      "adult male",
+      "light skin",
+      "bald head",
+      "long open plum-coloured coat",
+      "light-grey V-neck shirt",
+      "olive-brown straight trousers",
+      "grey sneakers with white soles"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/M_Medical_01.png"
+    ]
+  },
+  "F_Business_02": {
+    "name": "Elena",
+    "usd_file": "F_Business_02.usd",
+    "caption": "Adult woman with a chin-length brown bob, wearing a purple sleeveless tunic over a sage-green hooded top and blue jeans.",
+    "job": "civilian",
+    "isaac_category": "business",
+    "appearance_attributes_gt": [
+      "adult female",
+      "light skin",
+      "light-brown chin-length bob",
+      "centre-parted hair",
+      "purple sleeveless V-neck tunic",
+      "sage-green long-sleeve hooded top",
+      "dark-blue jeans",
+      "grey-and-white sneakers"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/F_Business_02.png"
+    ]
+  },
+  "female_adult_police_01_new": {
+    "name": "Aisha",
+    "usd_file": "female_adult_police_01_new.usd",
+    "caption": "Dark-skinned woman with a low greying bun, wearing a royal-blue uniform shirt and charcoal trousers.",
+    "job": "uniformed staff",
+    "isaac_category": "police",
+    "appearance_attributes_gt": [
+      "adult female",
+      "dark skin",
+      "dark hair streaked with grey in a low bun",
+      "royal-blue short-sleeve uniform shirt",
+      "shoulder tabs",
+      "two chest pockets",
+      "black belt",
+      "charcoal-grey trousers",
+      "dusty-pink sneakers"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/female_adult_police_01_new.png"
+    ]
+  },
+  "female_adult_police_02": {
+    "name": "Priya",
+    "usd_file": "female_adult_police_02.usd",
+    "caption": "Police officer in a grey peaked cap and white reflective POLICE vest over a white uniform shirt.",
+    "job": "police officer",
+    "isaac_category": "police",
+    "appearance_attributes_gt": [
+      "adult female",
+      "light skin",
+      "dark hair under a grey peaked cap",
+      "gold cap badge",
+      "white long-sleeve uniform shirt",
+      "white reflective vest marked POLICE",
+      "light-grey trousers",
+      "grey sneakers",
+      "black shoulder microphone",
+      "radio at the hip"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/female_adult_police_02.png"
+    ]
+  },
+  "female_adult_police_03_new": {
+    "name": "Sofia",
+    "usd_file": "female_adult_police_03_new.usd",
+    "caption": "Woman with a low greying bun, wearing a light-lavender uniform shirt and vivid blue trousers.",
+    "job": "uniformed staff",
+    "isaac_category": "police",
+    "appearance_attributes_gt": [
+      "adult female",
+      "medium-brown skin",
+      "dark hair streaked with grey in a low bun",
+      "light-lavender short-sleeve uniform shirt",
+      "shoulder tabs",
+      "two chest pockets",
+      "dark-blue belt",
+      "cobalt-blue trousers",
+      "burgundy-brown shoes"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/female_adult_police_03_new.png"
+    ]
+  },
+  "male_adult_construction_01_new": {
+    "name": "Diego",
+    "usd_file": "male_adult_construction_01_new.usd",
+    "caption": "Construction worker in a red hard hat and a white safety vest with red reflective panels.",
+    "job": "construction worker",
+    "isaac_category": "construction",
+    "appearance_attributes_gt": [
+      "adult male",
+      "light skin",
+      "short dark hair under a red hard hat",
+      "light-grey short-sleeve shirt",
+      "white safety vest",
+      "red reflective panels and stripes",
+      "white work gloves",
+      "green cargo trousers",
+      "red lower-leg bands",
+      "tan work boots"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/male_adult_construction_01_new.png"
+    ]
+  },
+  "male_adult_construction_03": {
+    "name": "Harold",
+    "usd_file": "male_adult_construction_03.usd",
+    "caption": "Bald adult man in a black waistcoat over a grey long-sleeve shirt and muted mauve trousers.",
+    "job": "civilian",
+    "isaac_category": "construction",
+    "appearance_attributes_gt": [
+      "adult male",
+      "light skin",
+      "bald head",
+      "black sleeveless buttoned waistcoat",
+      "grey long-sleeve collared shirt",
+      "muted mauve straight trousers",
+      "black dress shoes"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/male_adult_construction_03.png"
+    ]
+  },
+  "male_adult_construction_05_new": {
+    "name": "Jamal",
+    "usd_file": "male_adult_construction_05_new.usd",
+    "caption": "Construction worker in a yellow hard hat and neon high-vis vest.",
+    "job": "construction worker",
+    "isaac_category": "construction",
+    "appearance_attributes_gt": [
+      "adult male",
+      "dark skin",
+      "short dark hair under a neon-yellow hard hat",
+      "purple short-sleeve T-shirt",
+      "neon-yellow reflective vest",
+      "broad white stripes",
+      "faded light-blue jeans",
+      "ochre-yellow work boots"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/male_adult_construction_05_new.png"
+    ]
+  },
+  "male_adult_police_04": {
+    "name": "Owen",
+    "usd_file": "male_adult_police_04.usd",
+    "caption": "Adult man with close-cropped hair and dark aviator sunglasses, wearing a red short-sleeve shirt and beige trousers.",
+    "job": "civilian",
+    "isaac_category": "police",
+    "appearance_attributes_gt": [
+      "adult male",
+      "light skin",
+      "very short receding dark hair",
+      "clean-shaven face",
+      "dark aviator sunglasses",
+      "bright-red short-sleeve button-up shirt",
+      "two chest pockets",
+      "grey belt",
+      "beige trousers",
+      "grey sneakers with white soles"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/male_adult_police_04.png"
+    ]
+  },
+  "original_male_adult_construction_02": {
+    "name": "Ravi",
+    "usd_file": "male_adult_construction_02.usd",
+    "caption": "Construction worker in a white hard hat and white reflective vest with grey patterned work clothes.",
+    "job": "construction worker",
+    "isaac_category": "construction",
+    "appearance_attributes_gt": [
+      "adult male",
+      "dark skin",
+      "white hard hat",
+      "light-grey patterned short-sleeve shirt",
+      "white reflective safety vest",
+      "white work gloves",
+      "mottled light-grey cargo trousers",
+      "grey work shoes"
+    ],
+    "reference_images": [
+      "assets/characters/reference_images/original_male_adult_construction_02.png"
+    ]
+  }
+}

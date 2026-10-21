@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<robot name="hand">
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="link_0"/>
+  </joint>
+  <joint name="right_inner_joint_0" type="revolute">
+    <origin xyz="0.010827566962689161 0.0 0.08309507742524147"/>
+    <parent link="link_0"/>
+    <child link="link_1"/>
+    <axis xyz="0.0 1.0 0.0"/>
+    <limit lower="-0.059999995" upper="0.85709023" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <joint name="right_tip_joint_0" type="revolute">
+    <origin xyz="-0.008511030580848455 0.0 0.05604422092437744"/>
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <axis xyz="0.0 -1.0 0.0"/>
+    <limit lower="-0.060000002" upper="0.85709023" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_2">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_4.obj"/>
+      </geometry>
+      <origin xyz="0.005684376694262028 0.0 0.012929994612932205"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_4_col0.obj"/>
+      </geometry>
+      <origin xyz="0.005684376694262028 0.0 0.012929994612932205"/>
+    </collision>
+  </link>
+  <link name="link_1">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_1.obj"/>
+      </geometry>
+      <origin xyz="-0.005270598456263542 0.0 0.028626199811697006"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_1_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.005270598456263542 0.0 0.028626199811697006"/>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_2.obj"/>
+      </geometry>
+      <origin xyz="0.006228403188288212 0.0 0.020631801337003708"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_2_col0.obj"/>
+      </geometry>
+      <origin xyz="0.006228403188288212 0.0 0.020631801337003708"/>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_3.obj"/>
+      </geometry>
+      <origin xyz="0.005228402791544795 0.0 0.04870803281664848"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_3_col0.obj"/>
+      </geometry>
+      <origin xyz="0.005228402791544795 0.0 0.04870803281664848"/>
+    </collision>
+  </link>
+  <joint name="left_inner_joint_0" type="revolute">
+    <origin xyz="-0.010827572550624609 -1.2363307178020477e-07 0.08309507742524147"/>
+    <parent link="link_0"/>
+    <child link="link_3"/>
+    <axis xyz="0.0 -1.0 0.0"/>
+    <limit lower="-0.059999995" upper="0.85709023" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <joint name="left_tip_joint_0" type="revolute">
+    <origin xyz="0.008511032443493605 6.030313670635223e-08 0.05604422092437744"/>
+    <parent link="link_3"/>
+    <child link="link_4"/>
+    <axis xyz="0.0 1.0 0.0"/>
+    <limit lower="-0.060000002" upper="0.85709023" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_4">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_8.obj"/>
+      </geometry>
+      <origin xyz="-0.005684376694262028 0.0 0.012929994612932205"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_8_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.005684376694262028 0.0 0.012929994612932205"/>
+    </collision>
+  </link>
+  <link name="link_3">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_5.obj"/>
+      </geometry>
+      <origin xyz="0.00527060404419899 8.346978574991226e-08 0.028626199811697006"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_5_col0.obj"/>
+      </geometry>
+      <origin xyz="0.00527060404419899 8.346978574991226e-08 0.028626199811697006"/>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_6.obj"/>
+      </geometry>
+      <origin xyz="-0.006228398764505982 0.0 0.020631801337003708"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_6_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.006228398764505982 0.0 0.020631801337003708"/>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_7.obj"/>
+      </geometry>
+      <origin xyz="-0.005228396039456129 7.450580596923828e-09 0.04870803281664848"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_7_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.005228396039456129 7.450580596923828e-09 0.04870803281664848"/>
+    </collision>
+  </link>
+  <link name="link_0">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.046109629794955254"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.046109629794955254"/>
+    </collision>
+  </link>
+</robot>

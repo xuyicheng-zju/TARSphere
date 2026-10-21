@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tarsphere"
+version = "0.1.0"
+description = "Full-stack framework and benchmark for long-horizon embodied agents"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{name = "TARSphere contributors"}]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "addict==2.4.0", "pydantic>=2.0,<3", "pyyaml>=6.0", "numpy>=1.24,<2.0",
+  "scipy>=1.10", "packaging>=24", "Pillow>=10", "matplotlib>=3.8", "dulwich>=1.2",
+]
+
+[project.optional-dependencies]
+sim = [
+  "gymnasium==1.2.0", "onnxruntime==1.19.2", "rsl-rl-lib==2.2.1",
+  "lcm==1.5.0", "httpx>=0.25", "requests>=2.31", "toml>=0.10", "ray>=2.40,<3",
+]
+grasp = [
+  "shapely>=2.1.2", "trimesh>=4.0", "manifold3d==3.5.2",
+  "msgpack>=1.0", "msgpack-numpy>=0.4.8", "pyzmq>=26.0",
+]
+eval = [
+  "openai>=1.0", "gymnasium==1.2.0", "Flask==3.0.3",
+  "diffusers==0.33.1", "imageio==2.37.0", "anthropic==0.122.0",
+]
+open-frontier = ["torch>=2.1", "hdbscan>=0.8.40"]
+dev = ["pytest>=8.0", "build>=1.2", "ruff>=0.9", "openai>=1.0", "Flask==3.0.3", "imageio==2.37.0", "pyzmq>=26", "msgpack>=1.0", "trimesh>=4.0", "shapely>=2.1.2", "manifold3d==3.5.2"]
+
+
+[tool.setuptools.packages.find]
+include = ["tarsphere*"]
+exclude = ["tests*", "third_party*", "scripts*"]
+# Every owned Python package has __init__.py. Avoid traversing external asset
+# mounts as implicit namespace packages during editable installation.
+namespaces = false
+
+[tool.setuptools.package-data]
+"tarsphere.simulator" = ["LICENSE"]
+"tarsphere.bench.inputs" = ["sources.json"]
+"tarsphere.humans" = ["runtime_capabilities.json"]
+"tarsphere.infra.kit" = ["*.kit"]
+"tarsphere.infra.services" = ["*.sh"]
+"tarsphere.simulator.extensions.controllers.lcmtypes" = ["*.lcm"]
+"tarsphere.simulator.core.util.log" = ["*.ini"]
+
+[tool.ruff]
+target-version = "py310"
+exclude = ["third_party", ".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E9", "F63", "F7", "F82"]

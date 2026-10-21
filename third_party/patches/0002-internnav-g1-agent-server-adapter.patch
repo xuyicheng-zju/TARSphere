@@ -1,0 +1,104 @@
+diff --git a/internnav/agent/internvla_n1_agent.py b/internnav/agent/internvla_n1_agent.py
+index d2e1d27..1d275ee 100644
+--- a/internnav/agent/internvla_n1_agent.py
++++ b/internnav/agent/internvla_n1_agent.py
+@@ -2,6 +2,7 @@ import copy
+ import os
+ import threading
+ import time
++import traceback
+ 
+ import cv2
+ import imageio
+@@ -66,6 +67,7 @@ class InternVLAN1Agent(Agent):
+ 
+         # Thread management
+         self.s2_thread = None
++        self.s2_error = None
+ 
+         # Thread locks
+         self.s2_input_lock = threading.Lock()
+@@ -107,6 +109,7 @@ class InternVLAN1Agent(Agent):
+         self.pixel_goal_depth = None
+         self.dual_forward_step = 0
+         self.sys1_infer_times = 0
++        self.s2_error = None
+ 
+         # Reset s2 agent
+         with self.s2_agent_lock:
+@@ -165,7 +168,8 @@ class InternVLAN1Agent(Agent):
+                             self.s2_input.look_down,
+                         )
+                 except Exception as e:
+-                    print(f"s2 infer error: {e}")
++                    print(f"s2 infer error: {e}", flush=True)
++                    traceback.print_exc()
+                     self.s2_output.is_infering = False
+                     self.policy.reset()
+                     success = False
+@@ -180,15 +184,15 @@ class InternVLAN1Agent(Agent):
+                             False,
+                         )
+                     except Exception as e:
+-                        print(f"s2 infer error: {e}")
+-                        self.s2_output.is_infering = False
++                        print(f"s2 infer error: {e}", flush=True)
++                        traceback.print_exc()
++                        self.s2_error = e
++                        with self.s2_output_lock:
++                            self.s2_output.is_infering = False
+                         self.policy.reset()
+-                        self.s2_output.output_pixel = None
+-                        self.s2_output.output_action = [0]  # finish the inference
+-                        self.s2_output.output_latent = None
+                         continue
+ 
+-                print("s2 infer finish!!")
++                print("s2 infer finish!!", flush=True)
+                 # Update output state
+                 with self.s2_output_lock:
+                     print("get s2 output lock")
+@@ -251,7 +255,7 @@ class InternVLAN1Agent(Agent):
+ 
+         # S2 inference is done in a separate thread
+         if self.should_infer_s2(mode) or self.look_down:  # The look down frame must be inferred
+-            print(f"======== Infer S2 at step {self.episode_step}========")
++            print(f"======== Infer S2 at step {self.episode_step}========", flush=True)
+             with self.s2_input_lock:
+                 self.s2_input.idx = self.episode_step
+                 self.s2_input.rgb = rgb
+@@ -269,9 +273,17 @@ class InternVLAN1Agent(Agent):
+         # S1 inference is done in the main thread
+         while self.s2_output.is_infering:
+             time.sleep(0.5)
++        if self.s2_error is not None:
++            err = self.s2_error
++            self.s2_error = None
++            raise RuntimeError(f'InternVLAN1Agent S2 inference failed: {err}') from err
+ 
+         while not self.s2_output.validate():
+             time.sleep(0.2)
++            if self.s2_error is not None:
++                err = self.s2_error
++                self.s2_error = None
++                raise RuntimeError(f'InternVLAN1Agent S2 inference failed: {err}') from err
+ 
+         output = {}
+         # Simple branch:
+@@ -291,7 +303,15 @@ class InternVLAN1Agent(Agent):
+                     self.s2_output.output_action = None
+                     self.s2_output.output_pixel = None
+                     self.s2_output.output_latent = None
+-                output['action'] = [-1]
++                # The official H1 camera is fixed at -30 degrees, so upstream
++                # consumes LOOKDOWN internally and returns hold. HCA's G1 nav
++                # camera starts at -15 degrees; expose Habitat id 5 so the
++                # host can apply its calibrated -10-degree camera-only step.
++                print(
++                    'LOOKDOWN: returning official Habitat action 5 '
++                    '(host must tilt nav camera)',
++                    flush=True,
++                )
+                 self.sys1_infer_times = 0
+             else:
+                 self.look_down = False

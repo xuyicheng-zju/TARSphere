@@ -1,0 +1,112 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Root"
+{
+    def Cube "Ground" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        bool physics:collisionEnabled = 1
+        color3f[] primvars:displayColor = [(0.23, 0.25, 0.28)]
+        double3 xformOp:scale = (12, 12, 0.1)
+        double3 xformOp:translate = (0, 0, -0.05)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+
+    def Xform "Table"
+    {
+        def Cube "Top" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.72, 0.52, 0.30)]
+            double3 xformOp:scale = (0.60, 1.00, 0.06)
+            double3 xformOp:translate = (1.7760537198, 0.1476239115, 0.618)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+
+        def Cube "FrontLeftLeg" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.40, 0.25, 0.13)]
+            double3 xformOp:scale = (0.07, 0.07, 0.588)
+            double3 xformOp:translate = (1.5260537198, -0.3023760885, 0.294)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+
+        def Cube "FrontRightLeg" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.40, 0.25, 0.13)]
+            double3 xformOp:scale = (0.07, 0.07, 0.588)
+            double3 xformOp:translate = (1.5260537198, 0.5976239115, 0.294)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+
+        def Cube "RearLeftLeg" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.40, 0.25, 0.13)]
+            double3 xformOp:scale = (0.07, 0.07, 0.588)
+            double3 xformOp:translate = (2.0260537198, -0.3023760885, 0.294)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+
+        def Cube "RearRightLeg" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.40, 0.25, 0.13)]
+            double3 xformOp:scale = (0.07, 0.07, 0.588)
+            double3 xformOp:translate = (2.0260537198, 0.5976239115, 0.294)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+    }
+
+    def Xform "Bottle"
+    {
+        double3 xformOp:translate = (1.6360537198, 0.1476239115, 0.70)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "Asset" (
+            prepend references = @./GRScenes-100/home_scenes/models/object/others/bottle/fdda7f8e37cde39156b218f568160b87/instance.usd@
+        )
+        {
+            double3 xformOp:scale = (0.01, 0.01, 0.01)
+            uniform token[] xformOpOrder = ["xformOp:scale"]
+        }
+    }
+
+    def DomeLight "AmbientLight"
+    {
+        float inputs:intensity = 500
+    }
+
+    def DistantLight "KeyLight"
+    {
+        float inputs:angle = 4
+        float inputs:intensity = 1800
+        float xformOp:rotateX = -35
+        float xformOp:rotateY = 25
+        uniform token[] xformOpOrder = ["xformOp:rotateX", "xformOp:rotateY"]
+    }
+}

@@ -1,0 +1,451 @@
+episode_id: home_fetch_and_deliver_intent_understanding
+title: 'fetch_and_deliver: intent_understanding'
+description: Five task outcomes with grounded causal interference.
+scene:
+  asset_path: scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/start_result_navigation.usd
+  scale:
+  - 0.01
+  - 0.01
+  - 0.01
+robot:
+  id: 0
+  model: G1Robot
+  action_level: low_level
+  start_position:
+  - -0.016382785513997078
+  - 0.05944865196943283
+  - 0.8
+  start_orientation:
+  - 0.004258183655714458
+  - 0.0
+  - 0.0
+  - -0.9999909338948799
+humans:
+- id: Nora
+  role: household_coordinator
+  asset: F_Medical_01
+  start_position:
+  - -2.3
+  - 0.04
+  - 0.0
+  start_yaw: 0.008516393048282549
+  static: true
+  persona: Nora coordinates household preparation and gives concise, authoritative task requests without
+    inventing unseen facts.
+  goals:
+  - Contribute only the episode-authored public task facts.
+interaction:
+  intents:
+  - intent_id: study_location
+    description: Ask where the study entrance is and how to enter from the corridor.
+    answer:
+      kind: relative_direction
+      target_anchor_id: study_entrance
+      target_name: the corridor doorway into the study
+      approach_description: Access is from the corridor, not through the dining area or the glass partition.
+        The desk is on the right-hand side of the study as you enter from the corridor.
+  - intent_id: task_requirement
+    description: Ask which bottle was set aside.
+    eligible_human_ids:
+    - Nora
+    answer:
+      kind: authored_text
+      text: I mean the white bottle on the study desk, please.
+    preconditions:
+    - kind: milestone
+      milestone_ref: task_understanding
+    public: false
+evaluation:
+  schema_version: tarsphere.evaluation.v14
+  task_profile:
+    mainline: fetch_and_deliver
+    capability_slice: intent_understanding
+    subtype: preference_confirmation
+    resolution_mode: clarification_required
+    affected_outcome_id: onsite_task_completed
+    resolution_options:
+    - option_id: requested
+      description: Bring the white bottle on the desk.
+    - option_id: alternative
+      description: Bring another drinking vessel.
+    resolved_option_id: requested
+    fact_id: task_requirement
+    source_human_id: Nora
+    interaction_milestone_id: required_information_received
+    gap_cues:
+    - the requested item or readiness criterion is not specified
+  milestones:
+  - milestone_id: task_understanding
+    preconditions:
+    - kind: detector
+      condition_id: requester_near_at_start
+      detector: robot_near_human
+      arguments:
+        human_id: Nora
+        distance: 2.5
+      description: The Robot is within the shared auditory radius of Nora.
+    event:
+      type: task_requested
+      description: Nora publicly assigns the task.
+      human_actions:
+      - human: Nora
+        command: speak
+        message: Could you bring me my usual bottle from the study? From where you are facing me now,
+          turn around and follow the corridor for about 1.9 m, then take the doorway on your right into
+          the study. The desk is on your right as you enter.
+      task_updates: []
+    reaction:
+      description: The Agent forms a task-grounded initial plan.
+      evaluator: structured_plan_submitted
+      ground_truth:
+        goal: Could you bring me my usual bottle from the study? From where you are facing me now, turn
+          around and follow the corridor for about 1.9 m, then take the doorway on your right into the
+          study. The desk is on your right as you enter.
+        required_subgoals:
+        - Ask Nora for the missing requirement.
+        - Execute the clarified onsite task.
+        - Return to Nora with the result.
+  - milestone_id: required_information_received
+    preconditions:
+    - kind: milestone
+      milestone_ref: task_understanding
+    - kind: detector
+      condition_id: required_information_received_source_near
+      detector: robot_near_human
+      arguments:
+        human_id: Nora
+        distance: 2.5
+      description: The Robot is near enough to address visible Nora.
+    event:
+      type: interaction_opportunity_opened
+      description: A local interaction with Nora is physically available.
+      human_actions: []
+      task_updates: []
+    kind: event
+    completion:
+      description: Nora actually delivers the authored task information.
+      evaluator: information_received
+      ground_truth:
+        human_id: Nora
+        intent_id: task_requirement
+  - milestone_id: onsite_target_observed
+    preconditions:
+    - kind: milestone
+      milestone_ref: task_understanding
+    event:
+      type: task_phase_opened
+      description: The onsite observation phase is causally available.
+      human_actions: []
+      task_updates: []
+    reaction:
+      description: Observe the onsite task target in supplied RGB-D evidence.
+      evaluator: visual_targets_observed
+      ground_truth:
+        object_ids:
+        - bottle/model_15e612a610daa656ce14e5af83c681cc_0
+        scene_anchor_id: study_observation
+  - milestone_id: onsite_task_completed
+    preconditions:
+    - kind: milestone
+      milestone_ref: onsite_target_observed
+    - kind: milestone
+      milestone_ref: required_information_received
+    event:
+      type: task_phase_opened
+      description: The onsite task can be executed.
+      human_actions: []
+      task_updates: []
+    reaction:
+      description: The target is stably held.
+      evaluator: robot_holding_object
+      ground_truth:
+        object_id: bottle/model_15e612a610daa656ce14e5af83c681cc_0
+  - milestone_id: recipient_observed
+    preconditions:
+    - kind: milestone
+      milestone_ref: onsite_task_completed
+    event:
+      type: task_phase_opened
+      description: The next interaction phase with the current task recipient is causally available.
+      human_actions: []
+      task_updates: []
+    reaction:
+      description: The Agent observes the current task recipient in current ego RGB-D.
+      evaluator: human_visible
+      ground_truth:
+        human_id: Nora
+  - milestone_id: task_completed
+    preconditions:
+    - kind: milestone
+      milestone_ref: recipient_observed
+    event:
+      type: task_phase_opened
+      description: The handover phase for the current task recipient is causally available.
+      human_actions: []
+      task_updates: []
+    reaction:
+      description: The current task recipient accepts the offered handover while the Robot still holds
+        the requested target.
+      evaluator: handover_accepted
+      ground_truth:
+        human_id: Nora
+        object_id: bottle/model_15e612a610daa656ce14e5af83c681cc_0
+runtime:
+  max_decision_steps: 100
+world_knowledge:
+  scene_id: MVUCSQAKTKJ5EAABAAAAABY8_usd
+  scene_sources:
+    scene_usd: scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/start_result_navigation.usd
+  scene_map:
+    rgb_bev: scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/bev_rgb.png
+    room_bev: scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/bev_rooms.png
+    projection: scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/bev_meta.json
+    room_annotations: scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/room_annotations.json
+    occupancy: benchmark/meta/MVUCSQAKTKJ5EAABAAAAABY8_usd/occupancy.npy
+    resolution: 1440
+    bounds_min_xy:
+    - -7.3520679806480995
+    - -7.135230575073221
+    bounds_max_xy:
+    - 7.211932236372414
+    - 7.428769641947293
+  spatial_anchors:
+    study_entrance:
+    - 1.817395
+    - -0.240306
+    study_observation:
+    - 1.037042498588562
+    - -3.578770160675049
+    bedroom_observation:
+    - 2.597672700881958
+    - 2.653996229171753
+    requester_area:
+    - -2.3
+    - 0.04
+    elena_area:
+    - 1.9700578451156616
+    - -1.3209664821624756
+  objects:
+  - object_id: bottle/model_15e612a610daa656ce14e5af83c681cc_0
+    name: bright white bottle
+    category: bottle
+    room_id: R08
+    position_xyz:
+    - 0.19436456429841437
+    - -2.16
+    - 0.809
+    bounds_min_xyz:
+    - 0.1687970642984143
+    - -2.185521
+    - 0.738
+    bounds_max_xyz:
+    - 0.21993206429841444
+    - -2.134479
+    - 0.88
+    caption: Bright white cylindrical bottle with a clean body, on the study desk.
+    source_prim: /Root/Meshes/Furnitures/bottle/model_15e612a610daa656ce14e5af83c681cc_0
+    runtime_prim: /World/env_0/scene/Meshes/Furnitures/bottle/model_15e612a610daa656ce14e5af83c681cc_0
+    interaction: pickable
+  - object_id: bottle/model_fdda7f8e37cde39156b218f568160b87_0
+    name: beige bottle
+    category: bottle
+    room_id: R08
+    position_xyz:
+    - 0.84428
+    - -4.117536
+    - 0.550471
+    bounds_min_xyz:
+    - 0.80889
+    - -4.152881
+    - 0.49848
+    bounds_max_xyz:
+    - 0.879669
+    - -4.082191
+    - 0.602463
+    runtime_prim: /World/env_0/scene/Meshes/Furnitures/bottle/model_fdda7f8e37cde39156b218f568160b87_0
+    interaction: pickable
+  - object_id: bottle/model_8706a0faaed0dbfdea138d3f173c0de7_0
+    name: plain white bottle
+    category: bottle
+    room_id: R01
+    position_xyz:
+    - 1.862222
+    - 2.661176
+    - 0.672475
+    bounds_min_xyz:
+    - 1.823825
+    - 2.622821
+    - 0.550123
+    bounds_max_xyz:
+    - 1.900618
+    - 2.69953
+    - 0.794827
+    runtime_prim: /World/env_0/scene/Meshes/Furnitures/bottle/model_8706a0faaed0dbfdea138d3f173c0de7_0
+    interaction: pickable
+  - object_id: tray/model_59fa394def7de3188e0901fbcc7c2b82_0
+    name: white woven tray
+    category: tray
+    room_id: R08
+    position_xyz:
+    - 0.883745
+    - -4.116014
+    - 0.508291
+    bounds_min_xyz:
+    - 0.788819
+    - -4.210657
+    - 0.498487
+    bounds_max_xyz:
+    - 0.978671
+    - -4.021371
+    - 0.518095
+    runtime_prim: /World/env_0/scene/Meshes/Furnitures/tray/model_59fa394def7de3188e0901fbcc7c2b82_0
+    interaction: pickable
+  - object_id: desk/model_58aa3bd455a23b9de212727b903b95ed_0
+    name: white rectangular desk
+    category: desk
+    room_id: R08
+    position_xyz:
+    - -6.80062e-05
+    - -2.7962654007
+    - 0.369
+    bounds_min_xyz:
+    - -0.2500680767
+    - -3.5162314138
+    - 0.0
+    bounds_max_xyz:
+    - 0.2499320643
+    - -2.0762993877
+    - 0.7380000592
+    runtime_prim: /World/env_0/scene/Meshes/Animation/desk/model_58aa3bd455a23b9de212727b903b95ed_0
+  - object_id: table/model_aed34bf72ac5d0043d97650c61e30afc_0
+    name: white dining table
+    category: table
+    room_id: R10
+    position_xyz:
+    - -2.262169
+    - -1.31905
+    - 0.372
+    bounds_min_xyz:
+    - -3.162169
+    - -1.719049
+    - 0.0
+    bounds_max_xyz:
+    - -1.36217
+    - -0.91905
+    - 0.744
+    runtime_prim: /World/env_0/scene/Meshes/Furnitures/table/model_aed34bf72ac5d0043d97650c61e30afc_0
+  episode_route:
+    planning_clearance_radius_m: 0.25
+    collision_cell_count: 0
+    navigate_to_target:
+      points:
+      - point_id: task_start
+        position_xy:
+        - -0.016382785513997078
+        - 0.05944865196943283
+        semantic_anchor: Robot deployment point facing requester Nora
+        anchor_kind: robot_start
+        anchor_id: robot_0
+        authored_anchor_xy:
+        - -0.016382785513997078
+        - 0.05944865196943283
+        snap_residual_m: 0.0
+      - point_id: task_target
+        position_xy:
+        - 0.7444244027137756
+        - -2.1644492149353027
+        semantic_anchor: Authored stance for grasping the target bottle; pending physical certification
+        anchor_kind: grasp_stance
+        anchor_id: bottle/model_15e612a610daa656ce14e5af83c681cc_0
+        authored_anchor_xy:
+        - 0.7444244027137756
+        - -2.1644492149353027
+        snap_residual_m: 0.0
+      optimal_navigation_length_m: 4.441191580988854
+    transport_to_destination:
+      points:
+      - point_id: target_departure
+        position_xy:
+        - 0.7444244027137756
+        - -2.1644492149353027
+        semantic_anchor: Departure point after the task objective
+        anchor_kind: grasp_stance
+        anchor_id: bottle/model_15e612a610daa656ce14e5af83c681cc_0
+        authored_anchor_xy:
+        - 0.7444244027137756
+        - -2.1644492149353027
+        snap_residual_m: 0.0
+      - point_id: completion_stance
+        position_xy:
+        - -1.555057406425476
+        - 0.03678690269589424
+        semantic_anchor: Completion stance beside Nora
+        anchor_kind: human_position
+        anchor_id: Nora
+        authored_anchor_xy:
+        - -2.3
+        - 0.04
+        snap_residual_m: 0.7449495229314693
+      optimal_navigation_length_m: 5.877584772045672
+    milestone_stops:
+    - milestone_id: task_understanding
+      route_point_id: task_start
+    - milestone_id: required_information_received
+      route_point_id: task_start
+    - milestone_id: onsite_target_observed
+      route_point_id: task_target
+    - milestone_id: onsite_task_completed
+      route_point_id: task_target
+    - milestone_id: recipient_observed
+      route_point_id: completion_stance
+    - milestone_id: task_completed
+      route_point_id: completion_stance
+    optimal_navigation_length_m: 10.318776353034526
+  physical_task:
+    robot_start_yaw_rad: -3.1330762605415106
+    target_object_id: bottle/model_15e612a610daa656ce14e5af83c681cc_0
+    target_support_object_id: desk/model_58aa3bd455a23b9de212727b903b95ed_0
+    distractor_object_ids: []
+    initial_destination_object_id: table/model_aed34bf72ac5d0043d97650c61e30afc_0
+    final_destination_object_id: table/model_aed34bf72ac5d0043d97650c61e30afc_0
+    goal_relation: 'on'
+    grasp:
+      target_object_id: bottle/model_15e612a610daa656ce14e5af83c681cc_0
+      navigation_approach_xy:
+      - 0.7444244027137756
+      - -2.1644492149353027
+      robot_stance_xy:
+      - 0.7444244027137756
+      - -2.1644492149353027
+      robot_yaw_rad: 3.1305926186270443
+      retreat_xy:
+      - 0.7444244027137756
+      - -2.1644492149353027
+    place:
+      destination_object_id: table/model_aed34bf72ac5d0043d97650c61e30afc_0
+      navigation_approach_xy:
+      - -1.555057406425476
+      - 0.03678690269589424
+      robot_stance_xy:
+      - -1.555057406425476
+      - 0.03678690269589424
+      robot_yaw_rad: 2.0720873362744117
+      support_surface_xyz:
+      - -2.262169
+      - -1.31905
+      - 0.744
+  physical_scene_preparation:
+    hidden_runtime_prims: []
+    relocated_pickables:
+    - object_id: bottle/model_15e612a610daa656ce14e5af83c681cc_0
+      runtime_prim: /World/env_0/scene/Meshes/Furnitures/bottle/model_15e612a610daa656ce14e5af83c681cc_0
+      support_surface_z_m: 0.738
+      support_xy:
+      - 0.19436456429841437
+      - -2.16
+metadata:
+  scene_context: home
+tags:
+- home
+- fetch_and_deliver
+- intent_understanding

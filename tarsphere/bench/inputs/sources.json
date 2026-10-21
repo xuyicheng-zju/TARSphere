@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "current_source_id": "grscenes",
+  "sources": [
+    {
+      "source_id": "grscenes",
+      "role": "primary",
+      "status": "active",
+      "scenes": [
+        {"collection": "commercial_scenes", "scene_id": "MV4AFHQKTKJZ2AABAAAAADQ8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV4AFHQKTKJZ2AABAAAAADY8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV4AFHQKTKJZ2AABAAAAAEA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV4AFHQKTKJZ2AABAAAAAEI8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV5M25QKTKJZ2AABAAAAAAA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV5M25QKTKJZ2AABAAAAAAI8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV5M25QKTKJZ2AABAAAAAAQ8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV5M25QKTKJZ2AABAAAAAEI8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV7J6NIKTKJZ2AABAAAAAAA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MV7J6NIKTKJZ2AABAAAAAAI8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MVJWVGYKTLDAYAABAAAAAAQ8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MVSGSAIKTKJ66AABAAAAADY8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MVSGSAIKTKJ66AABAAAAAEA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MVSYCXYKTKJ66AABAAAAAAA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MVSYCXYKTKJ66AABAAAAACY8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MVSYCXYKTKJ66AABAAAAADI8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAABY8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAACA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAACI8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAACQ8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAACY8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAADA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAADI8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAADQ8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAADY8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAAEA8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWF4WLIKTIFZIAABAAAAAEI8_usd"},
+        {"collection": "commercial_scenes", "scene_id": "MWHLEPQKTIFZIAABAAAAAAA8_usd"},
+        {"collection": "home_scenes", "scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd"},
+        {"collection": "home_scenes", "scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd"},
+        {"collection": "home_scenes", "scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd"},
+        {"collection": "home_scenes", "scene_id": "MVUCSQAKTKJ5EAABAAAAAAQ8_usd"},
+        {"collection": "home_scenes", "scene_id": "MVUCSQAKTKJ5EAABAAAAABY8_usd"},
+        {"collection": "home_scenes", "scene_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd"},
+        {"collection": "home_scenes", "scene_id": "MVUCSQAKTKJ5EAABAAAAADQ8_usd"},
+        {"collection": "home_scenes", "scene_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd"},
+        {"collection": "home_scenes", "scene_id": "MVUHLWYKTKJ5EAABAAAAAAA8_usd"},
+        {"collection": "home_scenes", "scene_id": "MVUHLWYKTKJ5EAABAAAAAAQ8_usd"}
+      ],
+      "required_scene_files": ["start_result_navigation.usd", "interactive_obj_list.json"],
+      "required_metadata_files": [
+        "object_dict.json",
+        "object_dict_with_caption.json",
+        "model_mapping.json",
+        "paths.json",
+        "annotation.json",
+        "occupancy.npy",
+        "rgb_init.png"
+      ]
+    },
+    {
+      "source_id": "molmospaces",
+      "role": "secondary",
+      "status": "reserved",
+      "scenes": [],
+      "required_scene_files": [],
+      "required_metadata_files": []
+    }
+  ]
+}

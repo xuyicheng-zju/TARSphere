@@ -1,0 +1,39 @@
+gripper_dataset/videos*
+output*
+eval
+*.pyc
+**/__pycache__/
+scripts/__pycache__/*
+output_real/
+
+# Build artifacts
+*.o
+*.so
+pointnet2_ops/build/
+*.egg-info/
+
+uv.lock
+
+.venv/
+.git/
+.idea/
+__pycache__/
+*.pyc
+*.egg-info/
+checkpoints/
+logs/
+runs_ord/
+runs_local/
+*.deb
+*.log
+*.mp4
+swipat/
+mcp/
+
+# External dependencies cloned at runtime
+ext/*
+
+# end2end: generated merged robot URDFs/configs + run outputs (not committed)
+end2end/curobo_assets/
+end2end/runs/
+

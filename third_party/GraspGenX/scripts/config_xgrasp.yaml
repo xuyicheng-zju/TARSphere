@@ -1,0 +1,170 @@
+data:
+    root_dir: ''
+    cache_dir: '/tmp/graspgen_train_cache/'
+    cache_name: ''
+    num_points: 16384
+    num_object_points: 1024
+    cam_coord: False
+    num_rotations: 64
+    grid_resolution: 0.01
+    jitter_scale: 0.
+    contact_radius: 0.005
+    dist_above_table: 0.002
+    robot_prob: 1.0
+    random_seed: -1
+    min_grasps_gen_th: 5
+    rotation_augmentation: False
+    add_depth_noise: False
+    downsample_points: True
+    downsample_to_fixed_batch_size: False
+    dataset_cls: 'XGraspObjectPickDataset'
+    load_patch: False
+    load_onehot_vec: False
+    load_discriminator_dataset: False # True for GraspGenDiscriminator
+    patch_width: 256
+    prob_point_cloud : -1
+    object_root_dir : ''
+    grasp_root_dir : ''
+    num_grasps_per_object: 500
+    load_contact: False
+    discriminator_ratio: [0.50, 0.20, 0.25, 0.05, 0.0] # [0.40, 0.35, 0.15, 0.05, 0.05]
+    visualize_batch: False # visualize the batch datapoint during training
+    onpolicy_dataset_json_dir: null
+    onpolicy_dataset_h5_dir: null
+    onpolicy_dataset_name: null
+    render_redundancy: 1
+    cache_save_freq: 5000
+    single_gripper: null  # When set, only cache this one gripper (for parallel cache generation)
+    loading_mode: "preload"  # "preload" = load full H5 into RAM; "lazy" = read from H5 on demand
+    alternative_json_file_path: null  # When set, load map_uuid_to_path.json from this local path instead of grasp_root_dir
+
+diffusion:
+    object_backbone: 'pointnet'
+    gripper_backbone: 'z_offset'
+    pointnet_version: 'v1'
+    checkpoint_object_encoder_pretrained: null
+    num_embed_dim: 256
+    num_object_dim: 512
+    num_gripper_dim: 512
+    diffusion_embed_dim: 512
+    image_size: 256
+    num_diffusion_iters: 100
+    num_diffusion_iters_eval: 100
+    compositional_schedular: True
+    loss_pointmatching: False
+    loss_l1_pos: False
+    loss_l1_rot: False
+    grasp_repr: 'r3_6d'
+    kappa: -1
+    clip_sample: True
+    beta_schedule: 'squaredcos_cap_v2'
+    npn_architecture: 'ffn'
+    attention: 'cat'
+    pose_repr: 'mlp'
+    num_grasps_per_object: 100 # Only used during eval
+    ptv3:
+        grid_size: 0.01 # Voxel size; used by the ptv3vanilla backbone
+    ptv3vanilla:
+        enable_flash: false
+
+discriminator:
+    checkpoint: null
+    checkpoint_object_encoder_pretrained: null
+    object_backbone: 'pointnet'
+    gripper_backbone: 'z_offset'
+    pointnet_version: 'v1'
+    num_embed_dim: 256
+    num_object_dim: 512
+    num_gripper_dim: 512
+    grasp_repr: 'r3_6d'
+    pose_repr: 'mlp'
+    topk_ratio: 0.75
+    kappa: 1.0
+    ptv3:
+        grid_size: 0.01 # Voxel size; used by the ptv3vanilla backbone
+    ptv3vanilla:
+        enable_flash: false
+
+optimizer:
+    type: 'ADAMW'
+    base_batch_size: 128 # DEPRECATED
+    base_lr: 0.0008 # DEPRECATED
+    backbone_multiplier: 1.0 # DEPRECATED
+    grad_clip: -1 # DEPRECATED
+    weight_decay: 0.05
+    lr_scale_multiplier: 1.0 # DEPRECATED
+    lr: 0.00005
+    momentum: 0.9
+
+train:
+    model_name: 'graspgen'
+    num_gpus: 1
+    port: '1234'
+    mask_thresh: 0.5
+    batch_size: 32
+    num_workers: 16
+    num_epochs: 160
+    print_freq: 25
+    plot_freq: 50
+    save_freq: 10
+    eval_freq: 10
+    checkpoint: null
+    log_dir: ''
+    num_scenes: null
+    debug: False
+    debug_ddp: False
+    train_obj_split: 'valid_small'
+    valid_obj_split: 'valid_small'
+    train_gripper_split: 'valid_gripper'
+    valid_gripper_split: 'valid_gripper'
+    train_grasp_split: null
+    valid_grasp_split: null
+
+eval:
+    model_name: 'diffusion' # Choose from [diffusion, discriminator]
+    task: 'pick'
+    obj_split: 'valid_small'
+    gripper_split: 'valid_gripper'
+    grasp_split: null
+    first_scene: -1
+    last_scene: 1000
+    scene: null
+    gen_checkpoint: ''
+    dis_checkpoint: ''
+    output_dir: null
+    exp_name: null
+    cam_coord: False
+    object_thresh: 0.2
+    mask_thresh: 0.2
+    seed_thresh: null
+    num_seed_grasps: 150
+    max_num_grasps: 200
+    retract: 0.
+    grid_res: 0.01
+    placement_height: 0.02
+    placement_vis_radius: 0.2
+    batch_size: 4
+    num_workers: 1
+    print_freq: 1
+    num_procs: 1
+    num_vis: 5
+    num_runs: 1
+    debug: True
+    scene_file: ""
+    output_file: ""
+    write_output_file: True
+    grasp_seeder: False
+    config_save_file: "/code/FoundationGrasp/configtest.yaml"
+    color_grasp_with_conf: False
+    max_grasps_per_chunk: 100
+    single_gripper: null  # When set, only evaluate this one gripper (for parallel eval)
+    max_eval_objects: -1  # When > 0, stop inference after this many objects (for quick debugging)
+    missing_json: null  # Path to JSON from inspect_eval_h5.py --missing_eval_objects (used by inference_xgrasp_missing.py)
+
+meshcat:
+    visualize: True
+    point_size: 0.01
+    line_width: 2
+
+run: 'train_mode'
+

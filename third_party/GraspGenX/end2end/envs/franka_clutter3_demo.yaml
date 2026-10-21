@@ -1,0 +1,60 @@
+name: franka_clutter3_demo
+
+# Example 2: Franka Panda clears a 3-object HOPE clutter scene into the bin,
+# picking one-by-one (collision-free grasps only). A mix of flat + upright,
+# all committed in the repo (assets/sample_data/hope_objects/, HOPE units =
+# mm -> mesh_scale 0.001). Run from the repo root so the relative mesh paths
+# resolve. The bin's hollow collision (floor + 4 walls) is built in
+# dynamic_playback (default).
+assets:
+  - id: table
+    type: procedural_table
+    params: {width: 0.8, depth: 1.3, height: 0.5, thickness: 0.04, leg_thickness: 0.05}
+    pose: {translation: [0.55, 0.0, 0.23], quaternion_xyzw: [0.0, 0.0, 0.0, 1.0]}
+    support_label: table_top
+    collision: cuboid_from_extents
+
+  - id: bin
+    type: procedural_bin
+    params: {width: 0.40, depth: 0.40, height: 0.10, thickness: 0.015, angle: 0.15}
+    pose: {translation: [0.55, -0.40, 0.49], quaternion_xyzw: [0.0, 0.0, 0.0, 1.0]}
+    collision: cuboid_from_extents
+
+object_slots:
+  - id: object_0
+    label: Mustard_flat
+    mesh: assets/sample_data/hope_objects/Mustard.obj
+    mesh_scale: 0.001
+    parent: table
+    surface: table_top
+    translation_offset: [-0.10, 0.18, 0.0]
+    upright: true
+    randomize: {yaw_range_deg: [-180.0, 180.0]}
+  - id: object_1
+    label: ChocolatePudding_upright
+    mesh: assets/sample_data/hope_objects/ChocolatePudding.obj
+    mesh_scale: 0.001
+    parent: table
+    surface: table_top
+    translation_offset: [-0.10, 0.00, 0.0]
+    upright: true
+    pre_rotation: [1.0, 0.0, 0.0, 90.0]
+    randomize: {yaw_range_deg: [-180.0, 180.0]}
+  - id: object_2
+    label: GranolaBars_upright
+    mesh: assets/sample_data/hope_objects/GranolaBars.obj
+    mesh_scale: 0.001
+    parent: table
+    surface: table_top
+    translation_offset: [-0.10, -0.18, 0.0]
+    upright: true
+    pre_rotation: [1.0, 0.0, 0.0, 90.0]
+    randomize: {yaw_range_deg: [-180.0, 180.0]}
+
+extra_collision: []
+placement_region: {x: [-0.20, -0.05], y: [-0.32, 0.42]}
+
+visual:
+  show_ground_grid: true
+  background_color: [0.95, 0.95, 0.95]
+  camera: {eye: [1.65, 0.0, 1.25], target: [0.50, 0.00, 0.55]}

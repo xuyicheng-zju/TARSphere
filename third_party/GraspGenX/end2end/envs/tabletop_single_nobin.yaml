@@ -1,0 +1,34 @@
+name: tabletop_single_nobin
+
+# Examples 3 & 4: a single HOPE object standing upright on a bare tabletop
+# (no bin). Used for grasp-and-lift (pick_and_lift, e.g. the UR10e + arx_x5
+# arm) and for pick-and-drop with a bin-less scene. The object mesh is passed
+# on the command line via --mesh_file (e.g. assets/sample_data/hope_objects/
+# GranolaBars.obj, HOPE units = mm -> mesh_scale 0.001); this env only fixes
+# its placement. Deterministic placement (no randomize) so the committed
+# example reproduces.
+assets:
+  - id: table
+    type: procedural_table
+    params: {width: 0.8, depth: 0.8, height: 0.5, thickness: 0.04, leg_thickness: 0.05}
+    pose: {translation: [0.55, 0.0, 0.23], quaternion_xyzw: [0.0, 0.0, 0.0, 1.0]}
+    support_label: table_top
+    collision: cuboid_from_extents
+
+object_slot:
+  parent: table
+  surface: table_top
+  translation_offset: [-0.05, 0.05, 0.0]
+  upright: true
+  mesh_scale: 0.001
+  # GranolaBars (and most boxed HOPE meshes) lie down in their canonical frame;
+  # rotate +90° about X to stand it upright on the table. Harmless for meshes
+  # already upright.
+  pre_rotation: [1.0, 0.0, 0.0, 90.0]
+
+extra_collision: []
+
+visual:
+  show_ground_grid: true
+  background_color: [0.95, 0.95, 0.95]
+  camera: {eye: [1.10, 0.0, 1.05], target: [0.50, 0.0, 0.55]}

@@ -1,0 +1,123 @@
+# UR10e arm cuRobo kinematics template (collision spheres + self-collision
+# buffers for the 7 arm links). Consumed by build_ur10e_gripper.py to
+# assemble the merged UR10e + <gripper> cuRobo config, so the build is
+# self-contained (no dependency on a previously-built gripper config).
+# Arm sphere geometry originates from cuRobo's ur10e robot config.
+robot_cfg:
+  kinematics:
+    collision_spheres:
+      shoulder_link:
+      - center:
+        - 0
+        - 0
+        - 0
+        radius: 0.05
+      upper_arm_link:
+      - center:
+        - 0
+        - 0
+        - 0.18
+        radius: 0.09
+      - center:
+        - -0.102167
+        - 0
+        - 0.18
+        radius: 0.05
+      - center:
+        - -0.204333
+        - 0
+        - 0.18
+        radius: 0.05
+      - center:
+        - -0.3065
+        - 0
+        - 0.18
+        radius: 0.05
+      - center:
+        - -0.408667
+        - 0
+        - 0.18
+        radius: 0.05
+      - center:
+        - -0.510833
+        - 0
+        - 0.18
+        radius: 0.05
+      - center:
+        - -0.613
+        - 0
+        - 0.18
+        radius: 0.07
+      forearm_link:
+      - center:
+        - 0
+        - 0
+        - 0.03
+        radius: 0.05
+      - center:
+        - -0.0951667
+        - 0
+        - 0.03
+        radius: 0.05
+      - center:
+        - -0.190333
+        - 0
+        - 0.03
+        radius: 0.05
+      - center:
+        - -0.2855
+        - 0
+        - 0.03
+        radius: 0.05
+      - center:
+        - -0.380667
+        - 0
+        - 0.03
+        radius: 0.05
+      - center:
+        - -0.475833
+        - 0
+        - 0.03
+        radius: 0.05
+      - center:
+        - -0.571
+        - 0
+        - 0.03
+        radius: 0.05
+      wrist_1_link:
+      - center:
+        - 0
+        - 0
+        - 0
+        radius: 0.05
+      wrist_2_link:
+      - center:
+        - 0
+        - 0
+        - 0
+        radius: 0.05
+      wrist_3_link:
+      - center:
+        - 0
+        - 0
+        - 0
+        radius: 0.05
+      - center:
+        - 0
+        - 0
+        - 0.06
+        radius: 0.035
+      tool0:
+      - center:
+        - 0
+        - 0
+        - 0.0
+        radius: 0.02
+    self_collision_buffer:
+      shoulder_link: 0.07
+      upper_arm_link: 0
+      forearm_link: 0
+      wrist_1_link: 0
+      wrist_2_link: 0
+      wrist_3_link: 0
+      tool0: 0.0

@@ -1,0 +1,4 @@
+# Sim/render outputs (trajectories, MP4s, USDs, logs) — not versioned.
+runs/
+__pycache__/
+*.pyc

@@ -1,0 +1,127 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Root"
+{
+    def Cube "Ground" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        bool physics:collisionEnabled = 1
+        color3f[] primvars:displayColor = [(0.23, 0.25, 0.28)]
+        double3 xformOp:scale = (8, 8, 0.1)
+        double3 xformOp:translate = (0, 0, -0.05)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+
+    def Xform "SourceTable"
+    {
+        def Cube "Top" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.72, 0.52, 0.30)]
+            double3 xformOp:scale = (0.60, 0.90, 0.06)
+            double3 xformOp:translate = (1.78, 0.15, 0.618)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+
+        def Cube "LeftLeg" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.40, 0.25, 0.13)]
+            double3 xformOp:scale = (0.08, 0.08, 0.588)
+            double3 xformOp:translate = (1.62, -0.18, 0.294)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+
+        def Cube "RightLeg" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.40, 0.25, 0.13)]
+            double3 xformOp:scale = (0.08, 0.08, 0.588)
+            double3 xformOp:translate = (1.62, 0.48, 0.294)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+    }
+
+    def Xform "DestinationTable"
+    {
+        def Cube "Top" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.32, 0.58, 0.72)]
+            double3 xformOp:scale = (0.90, 0.60, 0.06)
+            double3 xformOp:translate = (-0.20, 1.42, 0.618)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+
+        def Cube "LeftLeg" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.13, 0.30, 0.40)]
+            double3 xformOp:scale = (0.08, 0.08, 0.588)
+            double3 xformOp:translate = (-0.52, 1.26, 0.294)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+
+        def Cube "RightLeg" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            double size = 1
+            bool physics:collisionEnabled = 1
+            color3f[] primvars:displayColor = [(0.13, 0.30, 0.40)]
+            double3 xformOp:scale = (0.08, 0.08, 0.588)
+            double3 xformOp:translate = (0.12, 1.26, 0.294)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        }
+    }
+
+    def Xform "Bottle"
+    {
+        double3 xformOp:translate = (1.50, 0.15, 0.70)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "Asset" (
+            prepend references = @./GRScenes-100/home_scenes/models/object/others/bottle/fdda7f8e37cde39156b218f568160b87/instance.usd@
+        )
+        {
+            double3 xformOp:scale = (0.01, 0.01, 0.01)
+            uniform token[] xformOpOrder = ["xformOp:scale"]
+        }
+    }
+
+    def DomeLight "AmbientLight"
+    {
+        float inputs:intensity = 500
+    }
+
+    def DistantLight "KeyLight"
+    {
+        float inputs:angle = 4
+        float inputs:intensity = 1800
+        float xformOp:rotateX = -35
+        float xformOp:rotateY = 25
+        uniform token[] xformOpOrder = ["xformOp:rotateX", "xformOp:rotateY"]
+    }
+}

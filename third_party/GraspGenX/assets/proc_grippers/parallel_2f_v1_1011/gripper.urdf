@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<robot name="hand">
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="link_0"/>
+  </joint>
+  <joint name="right_joint_0" type="prismatic">
+    <origin xyz="0.005507617723196745 0.0 0.1378512904047966"/>
+    <parent link="link_0"/>
+    <child link="link_1"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit lower="0.0" upper="0.049886767" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_1">
+    <visual>
+      <geometry>
+        <mesh filename="assets/right_finger_0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/right_finger_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </collision>
+  </link>
+  <joint name="left_joint_0" type="prismatic">
+    <origin xyz="-0.005507617749316296 -4.0046870708465576e-08 0.1378512904047966"/>
+    <parent link="link_0"/>
+    <child link="link_2"/>
+    <axis xyz="-1.0 0.0 0.0"/>
+    <limit lower="0.0" upper="0.049886767" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_2">
+    <visual>
+      <geometry>
+        <mesh filename="assets/left_finger_0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/left_finger_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="link_0">
+    <visual>
+      <geometry>
+        <mesh filename="assets/base_0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.03918454051017761"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/base_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.03918454051017761"/>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/base_1.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.09556499868631363"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/base_1_col0.obj"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.09556499868631363"/>
+    </collision>
+  </link>
+</robot>

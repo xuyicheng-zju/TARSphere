@@ -1,0 +1,8 @@
+# One compatible Python 3.11 stack for Isaac clients, SAM3, NavDP and CuRobo.
+numpy==1.26.4
+setuptools==80.9.0
+torch==2.6.0+cu126
+torchvision==0.21.0+cu126
+diffusers==0.33.1
+ml-dtypes==0.5.4
+opencv-python==4.11.0.86

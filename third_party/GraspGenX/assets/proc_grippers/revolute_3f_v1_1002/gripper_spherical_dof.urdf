@@ -1,0 +1,183 @@
+<?xml version="1.0" ?>
+<robot name="hand">
+  <link name="hand_x_link"/>
+  <link name="hand_y_link"/>
+  <link name="hand_z_link"/>
+  <link name="hand_spherical_link"/>
+  <joint name="hand_x_joint" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="hand_x_link"/>
+    <child link="hand_y_link"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="10.0"/>
+    <limit lower="-100.0" upper="100.0" effort="200.0" velocity="1.0"/>
+  </joint>
+  <joint name="hand_y_joint" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="hand_y_link"/>
+    <child link="hand_z_link"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="10.0"/>
+    <limit lower="-100.0" upper="100.0" effort="200.0" velocity="1.0"/>
+  </joint>
+  <joint name="hand_z_joint" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="hand_z_link"/>
+    <child link="hand_spherical_link"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="10.0"/>
+    <limit lower="-100.0" upper="100.0" effort="200.0" velocity="1.0"/>
+  </joint>
+  <joint name="spherical_joint" type="spherical">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="hand_spherical_link"/>
+    <child link="world"/>
+    <limit lower="-4.0" upper="4.0" effort="1000.0" velocity="100.0"/>
+  </joint>
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="link_0"/>
+  </joint>
+  <joint name="finger_1_0" type="revolute">
+    <origin xyz="0.04013371840119362 0.0 0.030297247227281332"/>
+    <parent link="link_0"/>
+    <child link="link_1"/>
+    <axis xyz="0.0 -1.0 0.0"/>
+    <limit lower="0.0" upper="2.1725862" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <joint name="fingertip_1_0" type="revolute">
+    <origin xyz="0.04063040390610695 -4.656612873077393e-10 0.006841542199254036"/>
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <axis xyz="0.0 -1.0 0.0"/>
+    <limit lower="0.0" upper="1.8890821" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_2">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_2.obj"/>
+      </geometry>
+      <origin xyz="0.025145765393972397 0.0 -0.0034207706339657307"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_2_col0.obj"/>
+      </geometry>
+      <origin xyz="0.025145765393972397 0.0 -0.0034207706339657307"/>
+    </collision>
+  </link>
+  <link name="link_1">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_1.obj"/>
+      </geometry>
+      <origin xyz="0.020315203815698624 0.0 0.0034207706339657307"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_1_col0.obj"/>
+      </geometry>
+      <origin xyz="0.020315203815698624 0.0 0.0034207706339657307"/>
+    </collision>
+  </link>
+  <joint name="finger_2_0" type="revolute">
+    <origin xyz="-0.02006686106324196 0.02567274821922183 0.023455707356333733"/>
+    <parent link="link_0"/>
+    <child link="link_3"/>
+    <axis xyz="0.0 1.0 0.0"/>
+    <limit lower="0.0" upper="1.8483638" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <joint name="fingertip_2_0" type="revolute">
+    <origin xyz="-0.04063038527965546 1.3830140233039856e-07 0.003420769702643156"/>
+    <parent link="link_3"/>
+    <child link="link_4"/>
+    <axis xyz="0.0 1.0 0.0"/>
+    <limit lower="0.0" upper="1.9058756" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_4">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_4.obj"/>
+      </geometry>
+      <origin xyz="-0.025145765393972397 0.0 -0.0034207706339657307"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_4_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.025145765393972397 0.0 -0.0034207706339657307"/>
+    </collision>
+  </link>
+  <link name="link_3">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_3.obj"/>
+      </geometry>
+      <origin xyz="-0.020315203815698624 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_3_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.020315203815698624 0.0 0.0"/>
+    </collision>
+  </link>
+  <joint name="finger_3_0" type="revolute">
+    <origin xyz="-0.02006686106324196 -0.02567274821922183 0.023455707356333733"/>
+    <parent link="link_0"/>
+    <child link="link_5"/>
+    <axis xyz="0.0 1.0 0.0"/>
+    <limit lower="0.0" upper="1.8483638" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <joint name="fingertip_3_0" type="revolute">
+    <origin xyz="-0.04063038527965546 1.3690441846847534e-07 0.003420769702643156"/>
+    <parent link="link_5"/>
+    <child link="link_6"/>
+    <axis xyz="0.0 1.0 0.0"/>
+    <limit lower="0.0" upper="1.9058756" effort="1000.0" velocity="2.0"/>
+  </joint>
+  <link name="link_6">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_6.obj"/>
+      </geometry>
+      <origin xyz="-0.025145765393972397 0.0 -0.0034207706339657307"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_6_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.025145765393972397 0.0 -0.0034207706339657307"/>
+    </collision>
+  </link>
+  <link name="link_5">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_5.obj"/>
+      </geometry>
+      <origin xyz="-0.020315203815698624 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_5_col0.obj"/>
+      </geometry>
+      <origin xyz="-0.020315203815698624 0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="link_0">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_0.obj"/>
+      </geometry>
+      <origin xyz="0.020066858269274235 0.0 0.01514862384647131"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_0_col0.obj"/>
+      </geometry>
+      <origin xyz="0.020066858269274235 0.0 0.01514862384647131"/>
+    </collision>
+  </link>
+</robot>

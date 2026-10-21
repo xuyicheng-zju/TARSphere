@@ -1,0 +1,12 @@
+* text=auto
+*.sh text eol=lf
+*.py text eol=lf
+*.png binary
+*.jpg binary
+*.webp binary
+*.pdf binary
+*.usd binary
+*.STL binary
+
+# Preserve upstream source and notices as distributed.
+third_party/** -text -whitespace

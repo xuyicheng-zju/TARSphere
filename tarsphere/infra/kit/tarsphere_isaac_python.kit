@@ -1,0 +1,50 @@
+[package]
+description = "TARSphere-Bench Isaac Sim Python experience with a stub sensors.physics extension"
+title = "TARSphere Isaac Sim Python"
+version = "0.1.0"
+keywords = ["experience", "app", "hca"]
+
+[dependencies]
+"isaacsim.exp.base.python" = {}
+
+# The animated-people stack must be loaded BEFORE the USD stage exists, not
+# after.  ``omni.anim.graph.core`` registers an ``omni::kit::IStageUpdate`` node
+# at extension startup, and its CharacterManager is built from that node's
+# stage-attach callback (the binary's only failure branch is
+# ``CharacterManager::Initialize() could not find USD stage %d``).  TARSphere
+# creates the one and only stage inside ``World()`` during ``Env(config)`` and
+# never calls ``open_stage`` -- the scene is referenced in with ``create_prim``
+# -- so there is exactly one attach event per process.  Enabling these
+# extensions later, via ``set_extension_enabled_immediate`` in
+# ``reset()``, registers the node after that event has already passed: measured
+# on 2026-08-18, ``[PERF] _create_env`` printed at log line 576 and
+# ``[ext: omni.anim.graph.core]`` startup only at line 582, and the run logged
+# ``CharacterManager::Shutdown() called without a prior successful call to
+# CharacterManager::Initialize()``.  The workaround was to replay the missed
+# event with ``attach_stage_with_callback``, which re-populates all 16.9M
+# triangles through Hydra and cost ~105s per run.  Declaring the dependencies
+# here makes Kit start them with the SimulationApp, so the callback fires on
+# the real attach and no replay is needed.
+"omni.kit.scripting" = {}
+"omni.anim.timeline" = {}
+"omni.anim.graph.core" = {}
+"omni.anim.retarget.core" = {}
+"omni.anim.people" = {}
+"isaacsim.replicator.agent.core" = {}
+"omni.anim.navigation.bundle" = {}
+"omni.kit.mesh.raycast" = {}
+
+# ${app} is this file's directory (tarsphere/infra/kit), so the repo root is
+# three levels up. Getting this wrong fails silently: Kit creates the missing
+# folder, finds nothing, and the stub only resolves through --ext-folder.
+[settings.app.exts.folders]
+'++' = [
+    "${app}/../../../extensions",
+]
+
+# Asynchronous MDL material loading is NOT set here on purpose: Isaac's
+# SimulationApp always puts --/rtx/materialDb/syncLoads=True and
+# --/rtx/hydra/materialSyncLoads=True on the Kit command line (from its
+# ``sync_loads`` launch-config key), and CLI assignments beat experience
+# settings, so a [settings.rtx...] block here is silently overridden.
+# isaac_sensors_physics_stub appends the overrides after those args instead.
