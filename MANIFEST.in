@@ -1,5 +1,5 @@
 # A source release must support the same setup and evaluation as a checkout.
-include LICENSE README.md README.zh-CN.md CITATION.cff CONTRIBUTING.md SECURITY.md
+include LICENSE README.md README.zh-CN.md
 include environment.yml pytest.ini .editorconfig .gitattributes .gitignore
 graft .github
 graft assets

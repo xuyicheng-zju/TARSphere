@@ -1,23 +1,20 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/tarsphere-logo-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/tarsphere-logo.png">
-  <img src="docs/assets/tarsphere-logo.png" alt="TARSphere" width="500">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/tarsphere-header-dark.svg">
+  <img src="docs/assets/tarsphere-header.svg" alt="TARSphere: A Robot-Oriented Full-Stack Framework for Long-Horizon Embodied Agents in Evolving Physical and Social Environments" width="100%">
 </picture>
 
-<h3>A Robot-Oriented Full-Stack Framework for Long-Horizon Embodied Agents<br>in Evolving Physical and Social Environments</h3>
-
-<a href="https://github.com/xuyicheng-zju">Yicheng Xu</a><sup>1</sup> · <a href="https://github.com/ZhikaiXu24">Zhikai Xu</a><sup>1</sup> · <a href="https://openreview.net/profile?id=~Ziyuan_Chen9">Ziyuan Chen</a><sup>2</sup> · <a href="https://openreview.net/profile?id=~Yuhang_Dong4">Yuhang Dong</a><sup>1</sup><br>
-<a href="https://openreview.net/profile?id=~Tao_Zhang100">Tao Zhang</a><sup>1</sup> · <a href="https://github.com/xzc-zju">Zhucun Xue</a><sup>1</sup> · <a href="https://openreview.net/profile?id=~Yong_Liu11">Yong Liu</a><sup>1</sup> · <a href="https://github.com/zhangzjn">Jiangning Zhang</a><sup>1</sup>
+<p>
+<a href="https://github.com/xuyicheng-zju">Yicheng&nbsp;Xu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/ZhikaiXu24">Zhikai&nbsp;Xu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Ziyuan_Chen9">Ziyuan&nbsp;Chen</a><sup>2</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Yuhang_Dong4">Yuhang&nbsp;Dong</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Tao_Zhang100">Tao&nbsp;Zhang</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/xzc-zju">Zhucun&nbsp;Xue</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Yong_Liu11">Yong&nbsp;Liu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/zhangzjn">Jiangning&nbsp;Zhang</a><sup>1</sup>
+</p>
 
 <sup>1</sup> Zhejiang University &nbsp;&nbsp; <sup>2</sup> Fudan University
 
 <a href="https://github.com/xuyicheng-zju/TARSphere"><img src="https://img.shields.io/badge/Code-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
 <a href="https://xuyicheng-zju.github.io/TARSphere/"><img src="https://img.shields.io/badge/Project-76549C?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project"></a>
-<img src="https://img.shields.io/badge/arXiv-Coming_Soon-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv: coming soon">
 
-<a href="#quick-start"><img src="docs/assets/icons/rocket.svg" width="16" height="16" alt=""> Quick Start</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="#documentation"><img src="docs/assets/icons/book.svg" width="16" height="16" alt=""> Documentation</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="#citation"><img src="docs/assets/icons/quote.svg" width="16" height="16" alt=""> Citation</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="README.zh-CN.md">中文</a>
+<a href="#quick-start"><img src="docs/assets/icons/rocket.svg" width="16" height="16" alt=""> Quick Start</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="#documentation"><img src="docs/assets/icons/book.svg" width="16" height="16" alt=""> Documentation</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="README.zh-CN.md">中文</a>
 
 <br>
 
@@ -121,20 +118,6 @@ third_party/       Bundled upstream source and notices
 ```
 
 Assets and checkpoints are installed separately. Keep credentials and generated runtime files outside the distributed source.
-
-<h2 id="citation"><img src="docs/assets/icons/quote.svg" width="24" height="24" alt=""> Citation</h2>
-
-```bibtex
-@misc{xu2026tarsphere,
-  title = {TARSphere: A Robot-Oriented Full-Stack Framework for Long-Horizon Embodied Agents in Evolving Physical and Social Environments},
-  author = {Xu, Yicheng and Xu, Zhikai and Chen, Ziyuan and Dong, Yuhang and Zhang, Tao and Xue, Zhucun and Liu, Yong and Zhang, Jiangning},
-  year = {2026}
-}
-```
-
-<h2 id="contributing"><img src="docs/assets/icons/users.svg" width="24" height="24" alt=""> Contributing</h2>
-
-Help extend manipulation, NPC behavior, and robot embodiments. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md), or contact [12532055@zju.edu.cn](mailto:12532055@zju.edu.cn).
 
 <h2 id="acknowledgments"><img src="docs/assets/icons/heart-handshake.svg" width="24" height="24" alt=""> Acknowledgments</h2>
 

@@ -33,9 +33,6 @@ If you found this work useful, please cite cuRoboV2,
 }
 ```
 
-## Contributing
-
-Contributions are welcome. Bugs: [open an issue](https://github.com/NVlabs/curobo/issues). General usage questions: [GitHub Discussions](https://github.com/NVlabs/curobo/discussions). For pull requests, please read [`CONTRIBUTING.md`](CONTRIBUTING.md). All commits must include a DCO sign-off (`git commit -s`).
 
 ## License
 

@@ -369,10 +369,6 @@ To format the code:
 ufmt format .
 ```
 
-## Contributing
-
-See [contributing](CONTRIBUTING.md) and the
-[code of conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
