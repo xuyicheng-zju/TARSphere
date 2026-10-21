@@ -1,9 +1,11 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/tarsphere-header-dark.svg">
-  <img src="docs/assets/tarsphere-header.svg" alt="TARSphere: A Robot-Oriented Full-Stack Framework for Long-Horizon Embodied Agents in Evolving Physical and Social Environments" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/tarsphere-logo-dark.svg">
+  <img src="docs/assets/tarsphere-logo.svg" alt="TARSphere" width="450">
 </picture>
+
+<h3>面向动态物理与社会环境中长时程具身智能体的全栈框架</h3>
 
 <p>
 <a href="https://github.com/xuyicheng-zju">Yicheng&nbsp;Xu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/ZhikaiXu24">Zhikai&nbsp;Xu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Ziyuan_Chen9">Ziyuan&nbsp;Chen</a><sup>2</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Yuhang_Dong4">Yuhang&nbsp;Dong</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Tao_Zhang100">Tao&nbsp;Zhang</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/xzc-zju">Zhucun&nbsp;Xue</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Yong_Liu11">Yong&nbsp;Liu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/zhangzjn">Jiangning&nbsp;Zhang</a><sup>1</sup>
@@ -13,6 +15,7 @@
 
 <a href="https://github.com/xuyicheng-zju/TARSphere"><img src="https://img.shields.io/badge/Code-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
 <a href="https://xuyicheng-zju.github.io/TARSphere/"><img src="https://img.shields.io/badge/Project-76549C?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project"></a>
+<a href="https://arxiv.org/"><img src="https://img.shields.io/badge/arXiv-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv"></a>
 
 <a href="#quick-start"><img src="docs/assets/icons/rocket.svg" width="16" height="16" alt=""> 快速开始</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="README.md#documentation"><img src="docs/assets/icons/book.svg" width="16" height="16" alt=""> 文档</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="README.md">English</a>
 
