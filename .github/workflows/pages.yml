@@ -1,0 +1,44 @@
+name: Project website
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release containing website-pages.tar.gz
+        required: true
+        default: media-v1
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download the website
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/website" "$RUNNER_TEMP/site"
+          gh release download "$RELEASE_TAG" --pattern website-pages.tar.gz --dir "$RUNNER_TEMP/website"
+          tar -xzf "$RUNNER_TEMP/website/website-pages.tar.gz" -C "$RUNNER_TEMP/site"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/site
+      - name: Deploy the website
+        id: deployment
+        uses: actions/deploy-pages@v4
