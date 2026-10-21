@@ -3,7 +3,7 @@ message: "If you use TARSphere, please cite the manuscript below."
 title: "TARSphere: A Robot-Oriented Full-Stack Framework for Long-Horizon Embodied Agents in Evolving Physical and Social Environments"
 type: software
 repository-code: "https://github.com/xuyicheng-zju/TARSphere"
-url: "https://xuyicheng-zju.github.io/TARSphere-project/"
+url: "https://xuyicheng-zju.github.io/TARSphere/"
 license: Apache-2.0
 version: "0.1.0"
 authors:

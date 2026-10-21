@@ -14,7 +14,7 @@
 <sup>1</sup> Zhejiang University &nbsp;&nbsp; <sup>2</sup> Fudan University
 
 <a href="https://github.com/xuyicheng-zju/TARSphere"><img src="https://img.shields.io/badge/Code-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
-<a href="https://xuyicheng-zju.github.io/TARSphere-project/"><img src="https://img.shields.io/badge/Project-76549C?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project"></a>
+<a href="https://xuyicheng-zju.github.io/TARSphere/"><img src="https://img.shields.io/badge/Project-76549C?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project"></a>
 <img src="https://img.shields.io/badge/arXiv-Coming_Soon-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv: coming soon">
 
 <a href="#quick-start"><img src="docs/assets/icons/rocket.svg" width="16" height="16" alt=""> Quick Start</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="#documentation"><img src="docs/assets/icons/book.svg" width="16" height="16" alt=""> Documentation</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="#citation"><img src="docs/assets/icons/quote.svg" width="16" height="16" alt=""> Citation</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="README.zh-CN.md">中文</a>
