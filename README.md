@@ -45,7 +45,7 @@ Connect multimodal reasoning to physical robot execution, embodied human interac
 | **TARSphere-Harness** | Observations, hierarchical memory, executable skills, and feedback for a frozen MLLM. |
 | **TARSphere-Bench** | Task authoring, paired condition examples, and causal evaluation for navigation and delivery. |
 
-<h2 id="todo">📋 TODO</h2>
+<h2 id="todo">✅ TODO</h2>
 
 <p>
 <img src="docs/assets/icons/checkbox-green.svg" width="18" height="18" alt="[x]"> Infra Harness<br>

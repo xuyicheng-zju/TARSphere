@@ -43,7 +43,7 @@
 | **TARSphere-Harness** | 为冻结的多模态模型提供观测、分层记忆、多层级技能与执行反馈。 |
 | **TARSphere-Bench** | 导航与递送任务的 episode schema、任务编写、条件样例和因果评测。 |
 
-<h2 id="todo">📋 TODO</h2>
+<h2 id="todo">✅ TODO</h2>
 
 <p>
 <img src="docs/assets/icons/checkbox-green.svg" width="18" height="18" alt="[x]"> Infra Harness<br>
