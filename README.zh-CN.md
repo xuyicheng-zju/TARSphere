@@ -19,22 +19,9 @@
 <a href="https://xuyicheng-zju.github.io/TARSphere/"><img src="https://img.shields.io/badge/Project-Website-2f80ed?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project website"></a>
 </p>
 
-<table align="center">
-  <tr>
-    <td align="center"><a href="#overview"><b>概览</b></a></td>
-    <td align="center"><a href="#todo"><b>TODO</b></a></td>
-    <td align="center"><a href="#quick-start"><b>安装</b></a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="README.md#documentation"><b>文档</b></a></td>
-    <td align="center"><a href="#tasks"><b>任务</b></a></td>
-    <td align="center"><a href="#acknowledgments"><b>致谢</b></a></td>
-  </tr>
-</table>
-
-<a href="README.md">English</a>
-
-<br>
+<p>
+<a href="#overview"><b>概览</b></a> &nbsp;·&nbsp; <a href="#todo"><b>TODO</b></a> &nbsp;·&nbsp; <a href="#quick-start"><b>安装</b></a> &nbsp;·&nbsp; <a href="README.md#documentation"><b>文档</b></a> &nbsp;·&nbsp; <a href="#tasks"><b>任务</b></a> &nbsp;·&nbsp; <a href="#acknowledgments"><b>致谢</b></a> &nbsp;·&nbsp; <a href="README.md"><b>English</b></a>
+</p>
 
 <a href="docs/assets/teaser.png"><img src="docs/assets/teaser.png" alt="TARSphere: socially grounded interaction, policy-driven grasping, evolving tasks, and physical execution" width="100%"></a>
 
