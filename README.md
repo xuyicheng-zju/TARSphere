@@ -24,9 +24,11 @@
     <td align="center"><a href="#overview"><b>Overview</b></a></td>
     <td align="center"><a href="#todo"><b>TODO</b></a></td>
     <td align="center"><a href="#quick-start"><b>Install</b></a></td>
+  </tr>
+  <tr>
     <td align="center"><a href="#documentation"><b>Docs</b></a></td>
     <td align="center"><a href="#tasks"><b>Tasks</b></a></td>
-    <td align="center"><a href="#acknowledgments"><b>Acknowledgments</b></a></td>
+    <td align="center"><a href="#acknowledgments"><b>Credits</b></a></td>
   </tr>
 </table>
 

@@ -24,6 +24,8 @@
     <td align="center"><a href="#overview"><b>概览</b></a></td>
     <td align="center"><a href="#todo"><b>TODO</b></a></td>
     <td align="center"><a href="#quick-start"><b>安装</b></a></td>
+  </tr>
+  <tr>
     <td align="center"><a href="README.md#documentation"><b>文档</b></a></td>
     <td align="center"><a href="#tasks"><b>任务</b></a></td>
     <td align="center"><a href="#acknowledgments"><b>致谢</b></a></td>
