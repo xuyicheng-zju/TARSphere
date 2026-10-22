@@ -1,3 +1,3 @@
-# UI icons
+# Checklist icons
 
-Outline icons from [Tabler Icons](https://github.com/tabler/tabler-icons), under the accompanying [MIT license](LICENSE). Stroke colors use the TARSphere brand, green for completed checklist items, and gray for pending items.
+Checklist icons adapted from [Tabler Icons](https://github.com/tabler/tabler-icons), under the accompanying [MIT license](LICENSE). Completed items use green; pending items use gray.

@@ -8,16 +8,29 @@
 <h3>面向动态物理与社会环境中长时程具身智能体的全栈框架</h3>
 
 <p>
-<a href="https://github.com/xuyicheng-zju">Yicheng&nbsp;Xu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/ZhikaiXu24">Zhikai&nbsp;Xu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Ziyuan_Chen9">Ziyuan&nbsp;Chen</a><sup>2</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Yuhang_Dong4">Yuhang&nbsp;Dong</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Tao_Zhang100">Tao&nbsp;Zhang</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/xzc-zju">Zhucun&nbsp;Xue</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Yong_Liu11">Yong&nbsp;Liu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/zhangzjn">Jiangning&nbsp;Zhang</a><sup>1</sup>
+<strong><a href="https://github.com/xuyicheng-zju">Yicheng&nbsp;Xu</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://github.com/ZhikaiXu24">Zhikai&nbsp;Xu</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://openreview.net/profile?id=~Ziyuan_Chen9">Ziyuan&nbsp;Chen</a></strong><sup>2</sup> &nbsp;·&nbsp; <strong><a href="https://openreview.net/profile?id=~Yuhang_Dong4">Yuhang&nbsp;Dong</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://openreview.net/profile?id=~Tao_Zhang100">Tao&nbsp;Zhang</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://github.com/xzc-zju">Zhucun&nbsp;Xue</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://openreview.net/profile?id=~Yong_Liu11">Yong&nbsp;Liu</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://github.com/zhangzjn">Jiangning&nbsp;Zhang</a></strong><sup>1</sup>
 </p>
 
 <sup>1</sup> Zhejiang University &nbsp;&nbsp; <sup>2</sup> Fudan University
 
-<a href="https://github.com/xuyicheng-zju/TARSphere"><img src="https://img.shields.io/badge/Code-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
-<a href="https://xuyicheng-zju.github.io/TARSphere/"><img src="https://img.shields.io/badge/Project-76549C?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project"></a>
-<a href="https://arxiv.org/"><img src="https://img.shields.io/badge/arXiv-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv"></a>
+<p>
+<a href="https://arxiv.org/abs/2610.30043"><img src="https://img.shields.io/badge/arXiv-2610.30043-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv: 2610.30043"></a>
+<a href="https://github.com/xuyicheng-zju/TARSphere"><img src="https://img.shields.io/badge/Code-TARSphere-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
+<a href="https://xuyicheng-zju.github.io/TARSphere/"><img src="https://img.shields.io/badge/Project-Website-2f80ed?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project website"></a>
+</p>
 
-<a href="#quick-start"><img src="docs/assets/icons/rocket.svg" width="16" height="16" alt=""> 快速开始</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="README.md#documentation"><img src="docs/assets/icons/book.svg" width="16" height="16" alt=""> 文档</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="README.md">English</a>
+<table align="center">
+  <tr>
+    <td align="center"><a href="#overview"><b>概览</b></a></td>
+    <td align="center"><a href="#todo"><b>TODO</b></a></td>
+    <td align="center"><a href="#quick-start"><b>安装</b></a></td>
+    <td align="center"><a href="README.md#documentation"><b>文档</b></a></td>
+    <td align="center"><a href="#tasks"><b>任务</b></a></td>
+    <td align="center"><a href="#acknowledgments"><b>致谢</b></a></td>
+  </tr>
+</table>
+
+<a href="README.md">English</a>
 
 <br>
 
@@ -27,13 +40,13 @@
 
 <img src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" alt="Python 3.11">
 <img src="https://img.shields.io/badge/Isaac_Sim-5.1-76B900?logo=nvidia&logoColor=white" alt="Isaac Sim 5.1">
-<a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-76549C" alt="Apache-2.0"></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-2f80ed" alt="Apache-2.0"></a>
 
 </div>
 
 ---
 
-<h2 id="overview"><img src="docs/assets/icons/stack-2.svg" width="24" height="24" alt=""> 项目特点</h2>
+<h2 id="overview">🧭 项目特点</h2>
 
 | 组件 | 能力 |
 | --- | --- |
@@ -41,7 +54,7 @@
 | **TARSphere-Harness** | 为冻结的多模态模型提供观测、分层记忆、多层级技能与执行反馈。 |
 | **TARSphere-Bench** | 导航与递送任务的 episode schema、任务编写、条件样例和因果评测。 |
 
-<h2 id="todo"><img src="docs/assets/icons/list-check.svg" width="24" height="24" alt=""> TODO</h2>
+<h2 id="todo">📋 TODO</h2>
 
 <p>
 <img src="docs/assets/icons/checkbox-green.svg" width="18" height="18" alt="[x]"> Infra Harness<br>
@@ -50,7 +63,7 @@
 <img src="docs/assets/icons/checkbox-empty.svg" width="18" height="18" alt="[ ]"> Real-Robot
 </p>
 
-<h2 id="quick-start"><img src="docs/assets/icons/rocket.svg" width="24" height="24" alt=""> 快速开始</h2>
+<h2 id="quick-start">🚀 快速开始</h2>
 
 **单张 RTX 4090 · Ubuntu 22.04 / 24.04 · Isaac Sim 5.1 · Python 3.11**
 
@@ -80,13 +93,13 @@ scripts/evaluate.sh --episodes /path/to/episodes
 
 机器人与 NPC 的交互控制见独立的[遥操文档](docs/TELEOPERATION.zh-CN.md)。
 
-<h2 id="tasks"><img src="docs/assets/icons/route.svg" width="24" height="24" alt=""> 任务与条件</h2>
+<h2 id="tasks">🎯 任务与条件</h2>
 
 两类任务沿用正文名称：**navigate-and-report** 与 **fetch-and-deliver**。每个场景各有 Base、perceptual robustness（PR）、disruption adaptation（DA）、task update（TU）、human coordination（HC）、intent understanding（IU）六种条件。
 
 评测包括 Success、Progress、路径效率、安全性和推理成本。本仓库提供源码和两类任务、六种条件的样例，自定义任务集通过 `--episodes` 接入。样例与协议见 [episodes](episodes/README.md) 和[评测文档](docs/EVALUATION.md)。
 
-<h2 id="acknowledgments"><img src="docs/assets/icons/heart-handshake.svg" width="24" height="24" alt=""> 致谢</h2>
+<h2 id="acknowledgments">🙏 致谢</h2>
 
 感谢以下工作的作者与维护者：
 
@@ -97,6 +110,6 @@ scripts/evaluate.sh --episodes /path/to/episodes
 
 各部件的来源与许可证见 [third_party](third_party/README.md)。
 
-<h2 id="license"><img src="docs/assets/icons/scale.svg" width="24" height="24" alt=""> 许可证</h2>
+<h2 id="license">📄 许可证</h2>
 
 原创代码与文档采用 [Apache-2.0](LICENSE)。

@@ -8,16 +8,29 @@
 <h3>A <strong>Robot-Oriented</strong> Full-Stack Framework for <strong>Long-Horizon Embodied Agents</strong><br>in Evolving <strong>Physical and Social Environments</strong></h3>
 
 <p>
-<a href="https://github.com/xuyicheng-zju">Yicheng&nbsp;Xu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/ZhikaiXu24">Zhikai&nbsp;Xu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Ziyuan_Chen9">Ziyuan&nbsp;Chen</a><sup>2</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Yuhang_Dong4">Yuhang&nbsp;Dong</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Tao_Zhang100">Tao&nbsp;Zhang</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/xzc-zju">Zhucun&nbsp;Xue</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://openreview.net/profile?id=~Yong_Liu11">Yong&nbsp;Liu</a><sup>1</sup> &nbsp;·&nbsp; <a href="https://github.com/zhangzjn">Jiangning&nbsp;Zhang</a><sup>1</sup>
+<strong><a href="https://github.com/xuyicheng-zju">Yicheng&nbsp;Xu</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://github.com/ZhikaiXu24">Zhikai&nbsp;Xu</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://openreview.net/profile?id=~Ziyuan_Chen9">Ziyuan&nbsp;Chen</a></strong><sup>2</sup> &nbsp;·&nbsp; <strong><a href="https://openreview.net/profile?id=~Yuhang_Dong4">Yuhang&nbsp;Dong</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://openreview.net/profile?id=~Tao_Zhang100">Tao&nbsp;Zhang</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://github.com/xzc-zju">Zhucun&nbsp;Xue</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://openreview.net/profile?id=~Yong_Liu11">Yong&nbsp;Liu</a></strong><sup>1</sup> &nbsp;·&nbsp; <strong><a href="https://github.com/zhangzjn">Jiangning&nbsp;Zhang</a></strong><sup>1</sup>
 </p>
 
 <sup>1</sup> Zhejiang University &nbsp;&nbsp; <sup>2</sup> Fudan University
 
-<a href="https://github.com/xuyicheng-zju/TARSphere"><img src="https://img.shields.io/badge/Code-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
-<a href="https://xuyicheng-zju.github.io/TARSphere/"><img src="https://img.shields.io/badge/Project-76549C?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project"></a>
-<a href="https://arxiv.org/"><img src="https://img.shields.io/badge/arXiv-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv"></a>
+<p>
+<a href="https://arxiv.org/abs/2610.30043"><img src="https://img.shields.io/badge/arXiv-2610.30043-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv: 2610.30043"></a>
+<a href="https://github.com/xuyicheng-zju/TARSphere"><img src="https://img.shields.io/badge/Code-TARSphere-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
+<a href="https://xuyicheng-zju.github.io/TARSphere/"><img src="https://img.shields.io/badge/Project-Website-2f80ed?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project website"></a>
+</p>
 
-<a href="#quick-start"><img src="docs/assets/icons/rocket.svg" width="16" height="16" alt=""> Quick Start</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="#documentation"><img src="docs/assets/icons/book.svg" width="16" height="16" alt=""> Documentation</a>&nbsp;&nbsp; · &nbsp;&nbsp;<a href="README.zh-CN.md">中文</a>
+<table align="center">
+  <tr>
+    <td align="center"><a href="#overview"><b>Overview</b></a></td>
+    <td align="center"><a href="#todo"><b>TODO</b></a></td>
+    <td align="center"><a href="#quick-start"><b>Install</b></a></td>
+    <td align="center"><a href="#documentation"><b>Docs</b></a></td>
+    <td align="center"><a href="#tasks"><b>Tasks</b></a></td>
+    <td align="center"><a href="#acknowledgments"><b>Acknowledgments</b></a></td>
+  </tr>
+</table>
+
+<a href="README.zh-CN.md">中文</a>
 
 <br>
 
@@ -27,13 +40,13 @@
 
 <img src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" alt="Python 3.11">
 <img src="https://img.shields.io/badge/Isaac_Sim-5.1-76B900?logo=nvidia&logoColor=white" alt="Isaac Sim 5.1">
-<a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-76549C" alt="Apache-2.0"></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-2f80ed" alt="Apache-2.0"></a>
 
 </div>
 
 ---
 
-<h2 id="overview"><img src="docs/assets/icons/stack-2.svg" width="24" height="24" alt=""> Meet TARSphere</h2>
+<h2 id="overview">🧭 Meet TARSphere</h2>
 
 Connect multimodal reasoning to physical robot execution, embodied human interaction, and changing task requirements.
 
@@ -43,7 +56,7 @@ Connect multimodal reasoning to physical robot execution, embodied human interac
 | **TARSphere-Harness** | Observations, hierarchical memory, executable skills, and feedback for a frozen MLLM. |
 | **TARSphere-Bench** | Task authoring, paired condition examples, and causal evaluation for navigation and delivery. |
 
-<h2 id="todo"><img src="docs/assets/icons/list-check.svg" width="24" height="24" alt=""> TODO</h2>
+<h2 id="todo">📋 TODO</h2>
 
 <p>
 <img src="docs/assets/icons/checkbox-green.svg" width="18" height="18" alt="[x]"> Infra Harness<br>
@@ -52,7 +65,7 @@ Connect multimodal reasoning to physical robot execution, embodied human interac
 <img src="docs/assets/icons/checkbox-empty.svg" width="18" height="18" alt="[ ]"> Real-Robot
 </p>
 
-<h2 id="quick-start"><img src="docs/assets/icons/rocket.svg" width="24" height="24" alt=""> Quick Start</h2>
+<h2 id="quick-start">🚀 Quick Start</h2>
 
 **Single RTX 4090 · Ubuntu 22.04 / 24.04 · Isaac Sim 5.1 · Python 3.11**
 
@@ -83,17 +96,17 @@ scripts/evaluate.sh --episodes /path/to/episodes
 
 `--episodes` accepts YAML, a directory, or a JSON path index. `--plan` previews the launch configuration. Runtime files go to `~/.local/share/tarsphere/runs`; use `--output-dir` to choose another directory. Public execution uses the default mechanisms; ordinary history, action, camera, and mapping parameters remain configurable.
 
-<h2 id="documentation"><img src="docs/assets/icons/book.svg" width="24" height="24" alt=""> Documentation</h2>
+<h2 id="documentation">📚 Documentation</h2>
 
 | Guide | Start here for |
 | --- | --- |
-| <img src="docs/assets/icons/settings.svg" width="18" height="18" alt=""> [Installation](docs/INSTALLATION.md) | Environment setup, single-GPU deployment, and troubleshooting. |
-| <img src="docs/assets/icons/download.svg" width="18" height="18" alt=""> [Assets & checkpoints](assets/README.md) | Upstream downloads and the required directory layout. |
-| <img src="docs/assets/icons/list-check.svg" width="18" height="18" alt=""> [Evaluation](docs/EVALUATION.md) | Task inputs, execution, and scoring saved trajectories. |
-| <img src="docs/assets/icons/file-text.svg" width="18" height="18" alt=""> [Task authoring](docs/BENCHMARK_AUTHORING.md) | Episode schemas, conditions, and physical validation. |
-| <img src="docs/assets/icons/device-gamepad.svg" width="18" height="18" alt=""> [Teleoperation](docs/TELEOPERATION.md) | Interactive robot and animated NPC control. |
+| ⚙️ [Installation](docs/INSTALLATION.md) | Environment setup, single-GPU deployment, and troubleshooting. |
+| 📦 [Assets & checkpoints](assets/README.md) | Upstream downloads and the required directory layout. |
+| 📋 [Evaluation](docs/EVALUATION.md) | Task inputs, execution, and scoring saved trajectories. |
+| 📝 [Task authoring](docs/BENCHMARK_AUTHORING.md) | Episode schemas, conditions, and physical validation. |
+| 🎮 [Teleoperation](docs/TELEOPERATION.md) | Interactive robot and animated NPC control. |
 
-<h2 id="tasks"><img src="docs/assets/icons/route.svg" width="24" height="24" alt=""> Tasks & Conditions</h2>
+<h2 id="tasks">🎯 Tasks & Conditions</h2>
 
 **Navigate-and-report** and **fetch-and-deliver** share a five-stage causal evaluation. The [source examples](episodes/README.md) cover six task conditions:
 
@@ -104,7 +117,7 @@ scripts/evaluate.sh --episodes /path/to/episodes
 
 Evaluation includes Success, Progress, path efficiency, safety, and inference cost. Provide your task collection through `--episodes`.
 
-<h2 id="repository"><img src="docs/assets/icons/folders.svg" width="24" height="24" alt=""> Repository</h2>
+<h2 id="repository">🗂️ Repository</h2>
 
 ```text
 tarsphere/
@@ -122,7 +135,7 @@ third_party/       Bundled upstream source and notices
 
 Assets and checkpoints are installed separately. Keep credentials and generated runtime files outside the distributed source.
 
-<h2 id="acknowledgments"><img src="docs/assets/icons/heart-handshake.svg" width="24" height="24" alt=""> Acknowledgments</h2>
+<h2 id="acknowledgments">🙏 Acknowledgments</h2>
 
 We thank the authors and maintainers of the works that support TARSphere:
 
@@ -133,6 +146,6 @@ We thank the authors and maintainers of the works that support TARSphere:
 
 Component-specific upstream links, citations, licenses, and local adaptations are documented in [third_party](third_party/README.md). Scene packages, robot assets, Isaac Sim, native character animations, and model weights retain their own terms and are installed separately; see [assets](assets/README.md).
 
-<h2 id="license"><img src="docs/assets/icons/scale.svg" width="24" height="24" alt=""> License</h2>
+<h2 id="license">📄 License</h2>
 
 Copyright 2026 TARSphere contributors. Original project code and documentation are licensed under [Apache-2.0](LICENSE).
