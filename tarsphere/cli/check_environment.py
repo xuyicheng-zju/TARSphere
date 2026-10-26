@@ -140,11 +140,63 @@ def _selected_runtime_assets(asset_root: Path, episodes: list[Any]) -> list[Path
         asset_root / get_robot_profile(episode.robot.robot_type).usd_rel_path
         for episode in episodes
     }
+    if any(episode.robot.robot_type == "G1Robot" for episode in episodes):
+        from tarsphere.embodiment.g1_asset import G1_DEX3_DONOR_REL_PATH
+
+        paths.add(asset_root / G1_DEX3_DONOR_REL_PATH)
     if any(episode.humans for episode in episodes):
         paths.add(
             asset_root / "characters" / "Animations" / "stand_walk_loop.skelanim.usd"
         )
     return sorted(paths)
+
+
+def _robot_runtime_asset_issues(asset_root: Path, episodes: list[Any]) -> list[str]:
+    """Compose the same robot as the worker, before creating render products."""
+    from pxr import Usd, UsdGeom
+
+    from tarsphere.embodiment.robot_profiles import get_robot_profile
+
+    issues: list[str] = []
+    for robot_type in sorted({episode.robot.robot_type for episode in episodes}):
+        profile = get_robot_profile(robot_type)
+        robot_usd = asset_root / profile.usd_rel_path
+        camera_rel_path = profile.camera_prim_path
+        try:
+            if robot_type == "G1Robot":
+                from tarsphere.embodiment.g1_asset import (
+                    G1_DEX3_DONOR_REL_PATH,
+                    G1_STABLE_ROOT_PRIM,
+                    create_g1_with_gravity_neutral_dex3,
+                    require_live_gravity_neutral_g1_dex3,
+                )
+
+                robot_usd = create_g1_with_gravity_neutral_dex3(
+                    robot_usd, asset_root / G1_DEX3_DONOR_REL_PATH
+                )
+            stage = Usd.Stage.Open(str(robot_usd))
+            if stage is None or not stage.GetDefaultPrim().IsValid():
+                raise RuntimeError(f"Robot USD has no valid default prim: {robot_usd}")
+            for prim in [stage.GetPseudoRoot(), *stage.Traverse()]:
+                errors = prim.GetPrimIndex().localErrors
+                if errors:
+                    raise RuntimeError(f"USD composition failed: {errors[0]}")
+            if robot_type == "G1Robot":
+                require_live_gravity_neutral_g1_dex3(stage, G1_STABLE_ROOT_PRIM)
+            if not camera_rel_path:
+                from tarsphere.embodiment.robot_profiles import load_simulator_robot_cfg
+
+                _, camera_cfg, _, _ = load_simulator_robot_cfg(robot_type)
+                camera_rel_path = camera_cfg.prim_path
+            camera_path = stage.GetDefaultPrim().GetPath().AppendPath(camera_rel_path)
+            camera = stage.GetPrimAtPath(camera_path)
+            if not camera.IsValid() or not camera.IsA(UsdGeom.Camera):
+                raise RuntimeError(
+                    f"Required Camera prim is missing or invalid: {robot_usd}:{camera_path}"
+                )
+        except Exception as error:
+            issues.append(f"{robot_type}: {error}")
+    return issues
 
 
 def _formal_episode_asset_payloads(
@@ -403,6 +455,14 @@ def main() -> int:
             "present"
             if not missing_runtime_assets
             else ", ".join(missing_runtime_assets),
+        )
+    )
+    robot_asset_issues = _robot_runtime_asset_issues(asset_root, formal_episodes)
+    checks.append(
+        Verification(
+            "Selected robot USDs compose with physical assets and required Camera prims",
+            not robot_asset_issues,
+            "; ".join(robot_asset_issues) if robot_asset_issues else "valid",
         )
     )
 

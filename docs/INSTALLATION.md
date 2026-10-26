@@ -36,6 +36,28 @@ source scripts/activate.sh
 
 Setup uses [runtime constraints](../scripts/runtime-constraints.txt) for the simulator stack and [separate requirements](../scripts/graspgenx-requirements.txt) for GraspGenX. It does not download Isaac Sim, scenes, robot/animation assets, or model checkpoints. Resolve missing resources and unavailable generation endpoints before launching.
 
+### Check G1 in an empty scene
+
+This checks the real simulator, G1 locomotion controller, Dex3 composition and
+RGB-D camera without downloading GRScenes scenes or calling model APIs. Install
+the [G1 package and Dex3 donor](../assets/README.md#g1-camera-and-donor-preparation),
+then run from the source checkout:
+
+```bash
+source host_env.sh
+source scripts/activate.sh
+"$TARSPHERE_PYTHON" -m tarsphere.cli.smoke_robot_camera \
+  --gpu 0 --output-dir /tmp/tarsphere-camera-smoke
+```
+
+This uses physical GPU 0; select another index if needed. The bundled empty
+scene has a floor and three colour targets. The check performs a cold reset,
+a resident soft reset and 120 standing-control steps. It verifies nonblank
+`640 × 480` RGB, valid depth, the required Camera path, `100°` horizontal FOV
+and the additional `−15°` mount pitch, and saves PNGs, depth arrays and
+`report.json`. A successful component check does not establish navigation
+or benchmark success in a furnished scene.
+
 ## Run an episode
 
 ```bash
@@ -54,6 +76,8 @@ The scheduler defaults to one worker per GPU. On a single GPU, Isaac, SAM3, Gras
 | Symptom | Check |
 | --- | --- |
 | Imports work but simulation fails | Standalone SDK, driver/Vulkan, asset roots and checkpoints. |
+| `No valid sensor paths provided` for G1 | Update the source checkout: G1 Camera creation is supplied by the temporary robot composition. Run the empty-scene check above. The preflight now validates the composed Camera before launching workers. |
+| G1 Dex3 donor missing or donor joint paths unresolved | Install the exact [NVIDIA donor](../assets/README.md#g1-camera-and-donor-preparation) at the documented `robots/g1_with_hand/` path. Update the code to support the NVIDIA joint layout. |
 | GPU out of memory | Running processes, loaded scene and combined service memory. Use one Isaac worker on a 24 GiB card. |
 | Scene load is slow | Storage and missing material dependencies; `scripts/stage.sh` supports local staging. |
 | Perception fails on first request | SAM3.1 checkpoint path, bundled tokenizer assets and checkpoint/model version. |

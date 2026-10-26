@@ -10781,12 +10781,11 @@ class IsaacAutonomousEnv:
             )
         if robot_type == "G1Robot":
             from tarsphere.embodiment.g1_asset import (
+                G1_DEX3_DONOR_REL_PATH,
                 create_g1_with_gravity_neutral_dex3,
             )
 
-            dex3_donor_usd = (
-                asset_root / "robots/g1_with_hand/g1_29dof_with_hand_rev_1_0.usd"
-            )
+            dex3_donor_usd = asset_root / G1_DEX3_DONOR_REL_PATH
             robot_physics_usd = create_g1_with_gravity_neutral_dex3(
                 robot_usd,
                 dex3_donor_usd,

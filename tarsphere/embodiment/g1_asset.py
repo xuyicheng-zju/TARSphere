@@ -7,8 +7,11 @@ visual OmniPBR Looks. Joint physics stay on the certified body.
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import uuid
 
@@ -24,6 +27,14 @@ from tarsphere.embodiment.dex3 import (
 
 G1_STABLE_ROOT_PRIM = "/g1_29dof"
 G1_DEX3_DONOR_ROOT_PRIM = "/g1_29dof_with_hand_rev_1_0"
+G1_DEX3_DONOR_REL_PATH = "robots/g1_with_hand/g1_29dof_with_hand_rev_1_0.usd"
+
+# Rest pose read from the G1 USD used for evaluation, relative to d435_link.
+# The public GRScenes USD omits this prim. The runtime separately composes the
+# profile's -15 degree mount pitch and the agent's gaze onto this rest pose.
+G1_CAMERA_REL_PATH = "d435_link/Camera"
+G1_CAMERA_TRANSLATION_M = (0.053944, 0.0, 0.059076)
+G1_CAMERA_REST_ORIENTATION_WXYZ = (0.2557072, 0.6592525, -0.6592525, -0.2557072)
 
 # Locomotion-certified ``g1_29dof_color.usd`` only authors ankle Mesh colliders.
 # Without the donor body collision payloads the visual torso/legs/arms pass
@@ -300,6 +311,10 @@ def _require_gravity_neutral_dex3_hands(
                 raise RuntimeError(
                     f"Loaded Dex3 link has no enabled collider: {link_path}"
                 )
+            if any(prim.IsA(UsdPhysics.Joint) for prim in Usd.PrimRange(link)):
+                raise RuntimeError(
+                    f"Loaded Dex3 link contains duplicate donor joints: {link_path}"
+                )
 
         for joint_name in DEX3_JOINT_NAMES[hand]:
             joint_path = f"{robot_root}/dex3_joints/{joint_name}"
@@ -444,6 +459,72 @@ def _finger_joint_bodies(
     return parent, child
 
 
+def _g1_camera_overlay(stable_g1: Path) -> str:
+    """Supply the evaluated rest camera without editing the upstream USD."""
+    from pxr import Usd, UsdGeom
+
+    stage = Usd.Stage.Open(str(stable_g1))
+    mount_path = f"{G1_STABLE_ROOT_PRIM}/d435_link"
+    if stage is None or not stage.GetPrimAtPath(mount_path).IsValid():
+        raise RuntimeError(
+            f"Stable G1 camera mount is missing: {stable_g1}:{mount_path}"
+        )
+    camera_path = f"{G1_STABLE_ROOT_PRIM}/{G1_CAMERA_REL_PATH}"
+    camera = stage.GetPrimAtPath(camera_path)
+    if camera.IsValid():
+        if not camera.IsA(UsdGeom.Camera):
+            raise RuntimeError(
+                f"G1 camera prim is not a Camera: {stable_g1}:{camera_path}"
+            )
+        # Existing calibrated assets keep their authored rest transform.
+        return ""
+    return f"""    over "d435_link"
+    {{
+        def Camera "Camera"
+        {{
+            float2 clippingRange = (0.01, 10000000)
+            float focalLength = 18.14756202697754
+            float horizontalAperture = 20.954999923706055
+            float verticalAperture = 15.290800094604492
+            double3 xformOp:translate = {G1_CAMERA_TRANSLATION_M}
+            quatf xformOp:orient = {G1_CAMERA_REST_ORIENTATION_WXYZ}
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+        }}
+    }}"""
+
+
+def _g1_donor_joint_paths(dex3_donor: Path) -> dict[str, str]:
+    """Resolve both URDF-imported /joints and NVIDIA's link-nested joints."""
+    from pxr import Usd, UsdPhysics
+
+    stage = Usd.Stage.Open(str(dex3_donor))
+    if stage is None or not stage.GetPrimAtPath(G1_DEX3_DONOR_ROOT_PRIM).IsValid():
+        raise RuntimeError(
+            f"G1 Dex3 donor root is missing: {dex3_donor}:{G1_DEX3_DONOR_ROOT_PRIM}"
+        )
+    required = {
+        "waist_pitch_joint",
+        "waist_roll_joint",
+        "left_hand_palm_joint",
+        "right_hand_palm_joint",
+        *DEX3_JOINT_NAMES["left"],
+        *DEX3_JOINT_NAMES["right"],
+    }
+    paths: dict[str, str] = {}
+    for prim in Usd.PrimRange(stage.GetPrimAtPath(G1_DEX3_DONOR_ROOT_PRIM)):
+        name = prim.GetName()
+        if name in required and prim.IsA(UsdPhysics.Joint):
+            if name in paths:
+                raise RuntimeError(f"Ambiguous G1 donor joint {name}: {dex3_donor}")
+            paths[name] = str(prim.GetPath())
+    missing = required - paths.keys()
+    if missing:
+        raise RuntimeError(
+            f"G1 Dex3 donor joints are missing: {dex3_donor}: {sorted(missing)}"
+        )
+    return paths
+
+
 def _composed_g1_contents(
     stable_g1: Path,
     dex3_donor: Path,
@@ -452,9 +533,43 @@ def _composed_g1_contents(
 ) -> str:
     stable_text = _usda_path(stable_g1)
     donor_text = _usda_path(dex3_donor)
+    # The worker composes its robot before SimulationApp starts. Creating a
+    # Usd.Stage here would freeze UsdSchemaRegistry before Kit registers PhysX
+    # schemas, causing a native abort when World creates its PhysicsScene.
+    # Inspect with this same Python/USD installation in a disposable process.
+    inspection = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import json,sys; from pathlib import Path; "
+            "from tarsphere.embodiment.g1_asset import _g1_camera_overlay, _g1_donor_joint_paths; "
+            "print(json.dumps({'camera': _g1_camera_overlay(Path(sys.argv[1])), "
+            "'joints': _g1_donor_joint_paths(Path(sys.argv[2]))}))",
+            str(stable_g1),
+            str(dex3_donor),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    if inspection.returncode:
+        raise RuntimeError(
+            f"G1 source asset inspection failed: {inspection.stderr.strip()}"
+        )
+    source_assets = json.loads(inspection.stdout)
+    donor_joint_paths = source_assets["joints"]
     link_definitions = []
     for link_names in DEX3_LINK_NAMES.values():
         for link_name in link_names:
+            # NVIDIA nests finger joints under the links. Those joints have
+            # out-of-scope body targets after a subtree reference; the remapped
+            # dex3_joints below are the sole physical joints, as in the tested
+            # URDF-imported donor. Do not leave a second constraint per finger.
+            nested_joints = "\n".join(
+                f'        over "{name}" (active = false) {{}}'
+                for name, path in donor_joint_paths.items()
+                if path.rsplit("/", 1)[0] == f"{G1_DEX3_DONOR_ROOT_PRIM}/{link_name}"
+            )
             link_definitions.append(
                 f'''    def Xform "{link_name}" (
         prepend apiSchemas = ["PhysxRigidBodyAPI", "MaterialBindingAPI"]
@@ -468,6 +583,7 @@ def _composed_g1_contents(
         rel material:binding = <{G1_LOOK_DEX3_PRIM}> (
             bindMaterialAs = "strongerThanDescendants"
         )
+{nested_joints}
     }}'''
             )
 
@@ -487,7 +603,7 @@ def _composed_g1_contents(
         body_collision_definitions.append(
             f'''    over "{link_name}"
     {{{disable_loco_foot}
-        def Xform "body_collisions" (
+        def "body_collisions" (
             prepend references = @{donor_text}@<{G1_DEX3_DONOR_ROOT_PRIM}/{link_name}/collisions>
         )
         {{
@@ -497,7 +613,7 @@ def _composed_g1_contents(
 
     joint_definitions = []
     for hand in ("left", "right"):
-        donor_palm_joint = f"{G1_DEX3_DONOR_ROOT_PRIM}/joints/{hand}_hand_palm_joint"
+        donor_palm_joint = donor_joint_paths[f"{hand}_hand_palm_joint"]
         joint_definitions.append(
             f'''        def PhysicsFixedJoint "{hand}_dex3_palm_joint" (
             prepend references = @{donor_text}@<{donor_palm_joint}>
@@ -509,7 +625,7 @@ def _composed_g1_contents(
         )
         for joint_name in DEX3_JOINT_NAMES[hand]:
             parent, child = _finger_joint_bodies(hand, joint_name)
-            donor_joint = f"{G1_DEX3_DONOR_ROOT_PRIM}/joints/{joint_name}"
+            donor_joint = donor_joint_paths[joint_name]
             joint_definitions.append(
                 f'''        def PhysicsRevoluteJoint "{joint_name}" (
             prepend references = @{donor_text}@<{donor_joint}>
@@ -523,7 +639,7 @@ def _composed_g1_contents(
     links = "\n\n".join(link_definitions)
     body_collisions = "\n\n".join(body_collision_definitions)
     joints = "\n\n".join(joint_definitions)
-    donor_pitch_joint = f"{G1_DEX3_DONOR_ROOT_PRIM}/joints/waist_pitch_joint"
+    donor_pitch_joint = donor_joint_paths["waist_pitch_joint"]
     waist_pitch_joint = f"""    over "waist_roll_link"
     {{
         def PhysicsRevoluteJoint "waist_pitch_joint" (
@@ -544,7 +660,7 @@ def _composed_g1_contents(
     # commands it only on that path; ordinary loco never sees this block.
     waist_roll_overlay = ""
     if unlock_waist_roll:
-        donor_roll_joint = f"{G1_DEX3_DONOR_ROOT_PRIM}/joints/waist_roll_joint"
+        donor_roll_joint = donor_joint_paths["waist_roll_joint"]
         waist_roll_overlay = f"""    over "waist_yaw_link"
     {{
         def PhysicsRevoluteJoint "waist_roll_joint" (
@@ -589,6 +705,8 @@ def Xform "g1_29dof" (
     }}
 
 {_g1_visual_looks_overlay()}
+
+{source_assets["camera"]}
 
     def Material "dex3_grasp_material" (
         prepend apiSchemas = ["PhysicsMaterialAPI"]

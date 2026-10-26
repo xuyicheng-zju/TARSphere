@@ -149,7 +149,8 @@ def test_preflight_requires_only_selected_robot_assets(tmp_path):
 
     episode = SimpleNamespace(robot=SimpleNamespace(robot_type="G1Robot"), humans=[])
     assert _selected_runtime_assets(tmp_path, [episode]) == [
-        tmp_path / "robots/g1/g1_29dof_color.usd"
+        tmp_path / "robots/g1/g1_29dof_color.usd",
+        tmp_path / "robots/g1_with_hand/g1_29dof_with_hand_rev_1_0.usd",
     ]
     episode.robot.robot_type = "MobileFrankaRobot"
     assert _selected_runtime_assets(tmp_path, [episode]) == [
