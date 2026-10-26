@@ -13,7 +13,6 @@ import socket
 import subprocess
 import sys
 import time
-import urllib.request
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -301,27 +300,13 @@ def physical_cpu_cores() -> int:
 
 
 def check_agent_endpoint(model: ModelEndpoint) -> None:
+    """Probe the generation API used by the worker, including key fallbacks."""
     failures: list[str] = []
     for credential_index, api_key in enumerate(model.api_keys(), start=1):
-        request = urllib.request.Request(
-            f"{model.api_base}/models",
-            headers={"Authorization": f"Bearer {api_key}"},
-        )
         try:
-            with urllib.request.urlopen(request, timeout=20) as response:
-                if response.status != 200:
-                    raise RuntimeError(f"HTTP {response.status}")
-                payload = json.loads(response.read())
-            model_ids = {
-                str(item.get("id"))
-                for item in payload.get("data", ())
-                if isinstance(item, dict)
-            }
-            if model.model not in model_ids:
-                raise RuntimeError(
-                    f"/models does not expose {model.model!r}; "
-                    f"got {sorted(model_ids)!r}"
-                )
+            # OpenAI-compatible generation does not require a model-list API.
+            # Use the same SDK/transport as the worker: a separate urllib TLS
+            # stack or an unavailable /models route must not block valid chat.
             _check_chat_inference(
                 name=model.name,
                 model=model.model,

@@ -28,6 +28,55 @@ def test_single_gpu_has_one_worker_and_cannot_reserve_its_only_gpu():
         evaluation_slots(1, workers_per_gpu=(1, 1))
 
 
+def test_endpoint_probe_uses_real_generation_without_requiring_models(monkeypatch):
+    import urllib.request
+    from tarsphere.cli.evaluate import ModelEndpoint, check_agent_endpoint
+
+    monkeypatch.setenv("PRIMARY_TEST_KEY", "test-primary")
+    monkeypatch.setenv("FALLBACK_TEST_KEY", "test-fallback")
+    monkeypatch.setattr(
+        urllib.request,
+        "urlopen",
+        lambda *a, **kw: pytest.fail(
+            "The model-list API is not a generation prerequisite"
+        ),
+    )
+    calls = []
+
+    def generate(**kwargs):
+        calls.append(kwargs["api_key"])
+        if kwargs["api_key"] == "test-primary":
+            raise ConnectionError("primary unavailable")
+
+    monkeypatch.setattr("tarsphere.cli.evaluate._check_chat_inference", generate)
+    model = ModelEndpoint(
+        "agent",
+        "vision-model",
+        "https://example.test/v1",
+        "PRIMARY_TEST_KEY",
+        "FALLBACK_TEST_KEY",
+    )
+    check_agent_endpoint(model)
+    assert calls == ["test-primary", "test-fallback"]
+
+
+def test_endpoint_probe_rejects_failed_generation_without_exposing_keys(monkeypatch):
+    from tarsphere.cli.evaluate import ModelEndpoint, check_agent_endpoint
+
+    monkeypatch.setenv("PRIMARY_TEST_KEY", "private-test-key")
+
+    def fail(**kwargs):
+        raise RuntimeError("provider error contains " + kwargs["api_key"])
+
+    monkeypatch.setattr("tarsphere.cli.evaluate._check_chat_inference", fail)
+    model = ModelEndpoint(
+        "agent", "vision-model", "https://example.test/v1", "PRIMARY_TEST_KEY"
+    )
+    with pytest.raises(RuntimeError, match="endpoint is not healthy") as error:
+        check_agent_endpoint(model)
+    assert "private-test-key" not in str(error.value)
+
+
 def test_single_server_plan_requires_no_gpu_endpoint_or_secrets(monkeypatch, capsys):
     monkeypatch.delenv("TARSPHERE_AGENT_MODEL", raising=False)
     monkeypatch.delenv("TARSPHERE_AGENT_API_BASE", raising=False)
